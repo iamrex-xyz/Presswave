@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Presswave — Your Autonomous PR Agent</title>
+<title>AgentPR — Your Autonomous PR Agent</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -792,7 +792,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="logo">Press<span>wave</span></a>
+  <a href="#" class="logo">Agent<span>PR</span></a>
   <span class="nav-tag">500,000+ journalists · AI-matched</span>
 </nav>
 
@@ -995,7 +995,7 @@
       </div>
     </div>
     <div class="proof-card">
-      <p class="proof-quote">"Spent two weeks trying to find the right journalists manually. Presswave did it in 10 minutes. The personalised pitches were better than what I'd written myself."</p>
+      <p class="proof-quote">"Spent two weeks trying to find the right journalists manually. AgentPR did it in 10 minutes. The personalised pitches were better than what I'd written myself."</p>
       <div class="proof-attr">
         <strong>James T.</strong>
         Solo founder, developer tools · Featured in The Verge
@@ -1013,7 +1013,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Press<span>wave</span></div>
+  <div class="footer-logo">Agent<span>PR</span></div>
   <div class="footer-note">A Napkin Labs experiment · Built by Rex</div>
 </footer>
 
