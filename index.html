@@ -1711,11 +1711,15 @@
     `).join('');
   }
 
-  function renderLockedItems(containerId, items, start, count) {
+  function renderLockedItems(containerId, items, start, count, moreText) {
     const el = document.getElementById(containerId);
     const locked = items.slice(start, start + count);
     if (locked.length === 0) {
-      el.style.display = 'none';
+      // Still show a few fake blurred rows for FOMO
+      el.innerHTML = `
+        <div class="preview-item"><span class="preview-item-name">████████</span><span class="preview-item-desc">████████████</span><span class="preview-item-tag"></span></div>
+        <div class="preview-item"><span class="preview-item-name">██████</span><span class="preview-item-desc">██████████</span><span class="preview-item-tag"></span></div>
+        <div class="preview-locked-overlay"><span class="preview-locked-text">${moreText || 'More unlocked on purchase'}</span></div>`;
       return;
     }
     el.innerHTML = locked.map(c => `
@@ -1724,7 +1728,7 @@
         <span class="preview-item-desc">${esc(c.description || c.outlet || '')}</span>
         <span class="preview-item-tag">${c.audience_size ? formatNum(c.audience_size) + ' reach' : ''}</span>
       </div>
-    `).join('') + `<div class="preview-locked-overlay"><span class="preview-locked-text">${el.dataset.more || ''}</span></div>`;
+    `).join('') + `<div class="preview-locked-overlay"><span class="preview-locked-text">${moreText || 'More unlocked on purchase'}</span></div>`;
   }
 
   function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
@@ -1827,32 +1831,39 @@
 
     previewData = { directories: dirs, journalists: jours, podcasts: pods, newsletters: news };
 
+    // Use real counts from DB, fall back to step1 estimates
+    const realDirCount = dirCount || c.dirs;
+    const realJourCount = jourCount || c.jours;
+    const realPodCount = podCount || c.pods;
+
+    // Update summary with real counts
+    document.getElementById('ps-directories').textContent = realDirCount;
+    document.getElementById('ps-journalists').textContent = realJourCount;
+    document.getElementById('ps-podcasts').textContent = realPodCount;
+
     // Render directories
     renderPreviewItems('preview-directories', dirs, SHOW);
-    document.getElementById('psc-directories').textContent = dirCount + ' total in database';
-    const dirLocked = document.getElementById('preview-directories-locked');
-    dirLocked.dataset.more = '+ ' + (dirCount - SHOW) + ' more directories unlocked on purchase';
-    renderLockedItems('preview-directories-locked', dirs, SHOW, LOCKED);
-    document.getElementById('pl-dirs').textContent = '+ ' + (dirCount - SHOW) + ' more directories unlocked';
+    document.getElementById('psc-directories').textContent = realDirCount + ' total in database';
+    renderLockedItems('preview-directories-locked', dirs, SHOW, LOCKED,
+      '+ ' + Math.max(0, realDirCount - SHOW) + ' more directories unlocked on purchase');
 
     // Render journalists
     renderPreviewItems('preview-journalists', jours, SHOW);
-    document.getElementById('psc-journalists').textContent = jourCount + ' total in database';
-    const jourLocked = document.getElementById('preview-journalists-locked');
-    renderLockedItems('preview-journalists-locked', jours, SHOW, LOCKED);
-    document.getElementById('pl-jours').textContent = '+ ' + (jourCount - SHOW) + ' more journalists unlocked';
+    document.getElementById('psc-journalists').textContent = realJourCount + ' total in database';
+    renderLockedItems('preview-journalists-locked', jours, SHOW, LOCKED,
+      '+ ' + Math.max(0, realJourCount - SHOW) + ' more journalists unlocked on purchase');
 
     // Render podcasts
     renderPreviewItems('preview-podcasts', pods, SHOW);
-    document.getElementById('psc-podcasts').textContent = podCount + ' total in database';
-    renderLockedItems('preview-podcasts-locked', pods, SHOW, LOCKED);
-    document.getElementById('pl-pods').textContent = '+ ' + (podCount - SHOW) + ' more podcasts unlocked';
+    document.getElementById('psc-podcasts').textContent = realPodCount + ' total in database';
+    renderLockedItems('preview-podcasts-locked', pods, SHOW, LOCKED,
+      '+ ' + Math.max(0, realPodCount - SHOW) + ' more podcasts unlocked on purchase');
 
     // Render newsletters (if any)
     if (news.length > 0) {
       document.getElementById('preview-newsletters-section').style.display = 'block';
       renderPreviewItems('preview-newsletters', news, SHOW);
-      document.getElementById('psc-newsletters').textContent = newsCount + ' total';
+      document.getElementById('psc-newsletters').textContent = (newsCount || news.length) + ' total';
     }
   }
 
