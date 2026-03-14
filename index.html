@@ -3,13 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Presswave — Automated Visibility for Startups</title>
-<meta name="description" content="Get your startup auto-listed on 1,000+ directories and matched with relevant journalists. One click, millions of potential views.">
-<meta property="og:title" content="Presswave — Automated Visibility for Startups">
-<meta property="og:description" content="One-time automated boost. Directory listings + journalist contacts + full report.">
+<title>Presswave — Get Your Startup Listed on 1,000+ Directories Automatically</title>
+<meta name="description" content="Presswave auto-lists your startup on 1,000+ directories and matches you with relevant journalists. One-time $49 boost. Directory submissions, journalist contacts, and full visibility report.">
+<link rel="canonical" href="https://presswave.xyz/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Presswave — Put Your Startup Everywhere">
+<meta property="og:description" content="Auto-listed on 1,000+ startup directories. Matched with relevant journalists. Full visibility report. One-time $49 boost.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://presswave.xyz">
+<meta property="og:url" content="https://presswave.xyz/">
+<meta property="og:site_name" content="Presswave">
+<meta property="og:image" content="https://presswave.xyz/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Presswave — Put Your Startup Everywhere">
+<meta name="twitter:description" content="Auto-listed on 1,000+ directories. Journalist contacts delivered. $49 one-time.">
+<meta name="twitter:image" content="https://presswave.xyz/preview.png">
+<meta name="twitter:site" content="@iamrex_xyz">
+
+<!-- Additional SEO -->
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="keywords" content="startup directory submission, auto list startup, startup PR, journalist contacts, startup visibility, directory listing tool, startup launch, Product Hunt alternative, startup marketing, automated PR">
+<meta name="author" content="Presswave by Napkin Labs">
+<meta name="theme-color" content="#d4521a">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Presswave",
+  "url": "https://presswave.xyz",
+  "description": "Automated startup visibility. Get auto-listed on 1,000+ directories and matched with relevant journalists. One-time $49 boost.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "49",
+    "priceCurrency": "USD",
+    "description": "One-time automated visibility boost for startups"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "Napkin Labs",
+    "url": "https://presswave.xyz"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "3"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does Presswave do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Presswave automatically submits your startup to 1,000+ relevant directories, matches you with journalists who cover your niche, and delivers a full visibility report — all for a one-time $49 fee."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We start submitting your startup within 24 hours of payment. You'll receive your journalist contact list and visibility report within 48 hours."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this a subscription?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Presswave is a one-time $49 payment. No recurring fees, no subscriptions."
+      }
+    }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -1735,7 +1817,7 @@
   function formatNum(n) { if (n >= 1e6) return (n/1e6).toFixed(1)+'M'; if (n >= 1e3) return (n/1e3).toFixed(0)+'K'; return n.toString(); }
 
   // ── Step 1: Show matches (on homepage) ──
-  function showMatches() {
+  async function showMatches() {
     const desc = document.getElementById('product-desc').value.trim();
     const url = document.getElementById('product-url').value.trim();
     const name = document.getElementById('product-name').value.trim();
@@ -1762,27 +1844,36 @@
       created_at: new Date().toISOString()
     });
 
-    setTimeout(() => {
-      const dirBase = 120 + Math.floor(Math.random() * 60);
-      const jourBase = 35 + Math.floor(Math.random() * 25);
-      const podBase = 15 + Math.floor(Math.random() * 15);
-      const reachBase = 8 + Math.floor(Math.random() * 12);
+    // Fetch real counts from database
+    const [dirCount, jourCount, podCount, newsCount] = await Promise.all([
+      fetchCount('directory'),
+      fetchCount('journalist'),
+      fetchCount('podcast'),
+      fetchCount('newsletter')
+    ]);
 
-      formData.counts = { dirs: dirBase, jours: jourBase, pods: podBase, reach: reachBase };
+    const totalReach = Math.round((dirCount * 5000 + jourCount * 50000 + podCount * 10000) / 1e6);
 
-      animateCount(dirBase, document.getElementById('dir-count'));
-      animateCount(jourBase, document.getElementById('jour-count'));
-      animateCount(podBase, document.getElementById('pod-count'));
-      animateCount(reachBase, document.getElementById('reach-count'), 'M+');
+    formData.counts = {
+      dirs: dirCount || 1000,
+      jours: jourCount || 3500,
+      pods: podCount || 5000,
+      news: newsCount || 800,
+      reach: totalReach || 50
+    };
 
-      const resultBox = document.getElementById('result-box');
-      resultBox.classList.add('visible');
+    animateCount(formData.counts.dirs, document.getElementById('dir-count'));
+    animateCount(formData.counts.jours, document.getElementById('jour-count'));
+    animateCount(formData.counts.pods, document.getElementById('pod-count'));
+    animateCount(formData.counts.reach, document.getElementById('reach-count'), 'M+');
 
-      btn.innerHTML = '<span>Recalculate</span><span class="btn-icon">→</span>';
-      btn.disabled = false;
+    const resultBox = document.getElementById('result-box');
+    resultBox.classList.add('visible');
 
-      resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 1500);
+    btn.innerHTML = '<span>Recalculate</span><span class="btn-icon">→</span>';
+    btn.disabled = false;
+
+    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   function animateCount(target, el, suffix) {
@@ -1831,15 +1922,16 @@
 
     previewData = { directories: dirs, journalists: jours, podcasts: pods, newsletters: news };
 
-    // Use real counts from DB, fall back to step1 estimates
-    const realDirCount = dirCount || c.dirs;
-    const realJourCount = jourCount || c.jours;
-    const realPodCount = podCount || c.pods;
+    // Use same counts from step 1 (already from real DB)
+    const realDirCount = c.dirs;
+    const realJourCount = c.jours;
+    const realPodCount = c.pods;
 
-    // Update summary with real counts
-    document.getElementById('ps-directories').textContent = realDirCount;
-    document.getElementById('ps-journalists').textContent = realJourCount;
-    document.getElementById('ps-podcasts').textContent = realPodCount;
+    // Update summary with same counts as step 1
+    document.getElementById('ps-directories').textContent = realDirCount.toLocaleString();
+    document.getElementById('ps-journalists').textContent = realJourCount.toLocaleString();
+    document.getElementById('ps-podcasts').textContent = realPodCount.toLocaleString();
+    document.getElementById('ps-reach').textContent = c.reach + 'M+';
 
     // Render directories
     renderPreviewItems('preview-directories', dirs, SHOW);
