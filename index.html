@@ -1709,114 +1709,60 @@
 
 
 <script>
-  // ── SUPABASE CONFIG ──
+  // ── CONFIG ──
+  // DO NOT change these values. Anon key starts with sb_publishable_, NOT a JWT.
   const SUPABASE_URL = 'https://vfjsyyextdvrvtirdpbh.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_-Ko6Dknctb-MzN6ekceoWg_kUSJ6Hl5';
-
-  // ── STRIPE PAYMENT LINK ──
   const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_fZu00lfJP5pDaiY1vgfAc00';
 
   let formData = {};
-  let previewData = { directories: [], journalists: [], podcasts: [], newsletters: [] };
 
-  // ── Save lead to Supabase ──
-  async function saveLead(data) {
-    try {
-      await fetch(SUPABASE_URL + '/rest/v1/leads', {
-        method: 'POST',
-        headers: {
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(data)
-      });
-    } catch (e) {
-      console.error('Lead save failed:', e);
-    }
-  }
-
-  // ── Fetch contacts from Supabase ──
-  async function fetchContacts(type, limit) {
-    try {
-      const res = await fetch(
-        SUPABASE_URL + '/rest/v1/media_contacts?type=eq.' + type +
-        '&select=name,outlet,description,audience_size,website' +
-        '&order=audience_size.desc.nullslast&limit=' + limit,
-        {
-          headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
-          }
-        }
-      );
-      if (res.ok) return await res.json();
-    } catch (e) {
-      console.error('Fetch failed for', type, e);
-    }
-    return [];
-  }
-
-  // ── Fetch total counts ──
-  async function fetchCount(type) {
-    try {
-      const res = await fetch(
-        SUPABASE_URL + '/rest/v1/media_contacts?type=eq.' + type + '&select=id',
-        {
-          headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-            'Prefer': 'count=exact',
-            'Range': '0-0'
-          }
-        }
-      );
-      const range = res.headers.get('content-range');
-      if (range) {
-        const total = range.split('/')[1];
-        return parseInt(total) || 0;
-      }
-    } catch (e) {}
-    return 0;
-  }
-
-  // ── Render preview items ──
-  function renderPreviewItems(containerId, items, shown) {
-    const el = document.getElementById(containerId);
-    el.innerHTML = items.slice(0, shown).map(c => `
-      <div class="preview-item">
-        <span class="preview-item-name">${esc(c.name || 'Unknown')}</span>
-        <span class="preview-item-desc">${esc(c.description || c.outlet || '')}</span>
-        <span class="preview-item-tag">${c.audience_size ? formatNum(c.audience_size) + ' reach' : ''}</span>
-      </div>
-    `).join('');
-  }
-
-  function renderLockedItems(containerId, items, start, count, moreText) {
-    const el = document.getElementById(containerId);
-    const locked = items.slice(start, start + count);
-    if (locked.length === 0) {
-      // Still show a few fake blurred rows for FOMO
-      el.innerHTML = `
-        <div class="preview-item"><span class="preview-item-name">████████</span><span class="preview-item-desc">████████████</span><span class="preview-item-tag"></span></div>
-        <div class="preview-item"><span class="preview-item-name">██████</span><span class="preview-item-desc">██████████</span><span class="preview-item-tag"></span></div>
-        <div class="preview-locked-overlay"><span class="preview-locked-text">${moreText || 'More unlocked on purchase'}</span></div>`;
-      return;
-    }
-    el.innerHTML = locked.map(c => `
-      <div class="preview-item">
-        <span class="preview-item-name">${esc(c.name || 'Unknown')}</span>
-        <span class="preview-item-desc">${esc(c.description || c.outlet || '')}</span>
-        <span class="preview-item-tag">${c.audience_size ? formatNum(c.audience_size) + ' reach' : ''}</span>
-      </div>
-    `).join('') + `<div class="preview-locked-overlay"><span class="preview-locked-text">${moreText || 'More unlocked on purchase'}</span></div>`;
-  }
-
+  // ── Helpers ──
   function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-  function formatNum(n) { if (n >= 1e6) return (n/1e6).toFixed(1)+'M'; if (n >= 1e3) return (n/1e3).toFixed(0)+'K'; return n.toString(); }
+  function formatNum(n) { if (n >= 1e6) return (n/1e6).toFixed(1)+'M'; if (n >= 1e3) return (n/1e3).toFixed(0)+'K'; return String(n); }
 
-  // ── Step 1: Show matches (on homepage) ──
+  function animateCount(target, el, suffix) {
+    suffix = suffix || '';
+    let cur = 0;
+    const step = Math.max(1, Math.ceil(target / 25));
+    const t = setInterval(() => {
+      cur = Math.min(cur + step, target);
+      el.textContent = cur.toLocaleString() + suffix;
+      if (cur >= target) clearInterval(t);
+    }, 30);
+  }
+
+  // ── Save lead to Supabase (fire-and-forget) ──
+  function saveLead(data) {
+    fetch(SUPABASE_URL + '/rest/v1/leads', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(data)
+    }).catch(() => {});
+  }
+
+  // ── Call /api/analyze — single source of truth ──
+  async function callAnalyzeAPI(description, url, name, category) {
+    try {
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ description, url, name, category })
+      });
+      if (!res.ok) throw new Error('API returned ' + res.status);
+      return await res.json();
+    } catch (e) {
+      console.error('Analyze API failed:', e);
+      return null;
+    }
+  }
+
+  // ── Step 1: Analyze & show stats on homepage ──
   async function showMatches() {
     const desc = document.getElementById('product-desc').value.trim();
     const url = document.getElementById('product-url').value.trim();
@@ -1835,6 +1781,7 @@
     btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
     btn.disabled = true;
 
+    // Save lead immediately
     saveLead({
       product_name: name || null,
       product_url: url || null,
@@ -1844,82 +1791,72 @@
       created_at: new Date().toISOString()
     });
 
-    // Fetch real counts + analyze startup URL in parallel
-    const [dirCount, jourCount, podCount, newsCount, analysisResult] = await Promise.all([
-      fetchCount('directory'),
-      fetchCount('journalist'),
-      fetchCount('podcast'),
-      fetchCount('newsletter'),
-      analyzeStartup(desc, url, name, category)
-    ]);
+    // Single API call — gets counts, matched contacts, URL analysis
+    const result = await callAnalyzeAPI(desc, url, name, category);
 
-    const totalReach = Math.round((dirCount * 5000 + jourCount * 50000 + podCount * 10000) / 1e6);
-
-    formData.counts = {
-      dirs: dirCount || 1000,
-      jours: jourCount || 3500,
-      pods: podCount || 5000,
-      news: newsCount || 800,
-      reach: totalReach || 50
-    };
-
-    // Store analysis for preview page
-    if (analysisResult) {
-      formData.analysis = analysisResult;
+    if (result && result.counts) {
+      formData.counts = {
+        dirs: result.counts.directories,
+        jours: result.counts.journalists,
+        pods: result.counts.podcasts,
+        news: result.counts.newsletters,
+        reach: result.counts.reach
+      };
+      formData.analysis = result;
+    } else {
+      // Hard fallback — shouldn't happen but just in case
+      formData.counts = { dirs: 1000, jours: 3500, pods: 5000, news: 800, reach: 50 };
+      formData.analysis = null;
     }
 
-    animateCount(formData.counts.dirs, document.getElementById('dir-count'));
-    animateCount(formData.counts.jours, document.getElementById('jour-count'));
-    animateCount(formData.counts.pods, document.getElementById('pod-count'));
-    animateCount(formData.counts.reach, document.getElementById('reach-count'), 'M+');
+    const c = formData.counts;
+    animateCount(c.dirs, document.getElementById('dir-count'));
+    animateCount(c.jours, document.getElementById('jour-count'));
+    animateCount(c.pods, document.getElementById('pod-count'));
+    animateCount(c.reach, document.getElementById('reach-count'), 'M+');
 
     const resultBox = document.getElementById('result-box');
     resultBox.classList.add('visible');
-
     btn.innerHTML = '<span>Recalculate</span><span class="btn-icon">→</span>';
     btn.disabled = false;
-
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  // ── Analyze startup via serverless API ──
-  async function analyzeStartup(description, url, name, category) {
-    try {
-      const res = await fetch('/api/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ description, url, name, category })
-      });
-      if (res.ok) return await res.json();
-    } catch (e) {
-      console.error('Analysis failed:', e);
+  // ── Render helpers for preview page ──
+  function renderItems(containerId, items, count) {
+    const el = document.getElementById(containerId);
+    const visible = items.slice(0, count);
+    if (!visible.length) {
+      el.innerHTML = '<div class="preview-item"><span class="preview-item-name" style="color:var(--mid)">No matches yet — our database is growing daily</span><span class="preview-item-desc"></span><span class="preview-item-tag"></span></div>';
+      return;
     }
-    return null;
+    el.innerHTML = visible.map(c => `
+      <div class="preview-item">
+        <span class="preview-item-name">${esc(c.name || 'Unknown')}</span>
+        <span class="preview-item-desc">${esc(c.description || c.outlet || '')}</span>
+        <span class="preview-item-tag">${c.audience_size ? formatNum(c.audience_size) + ' reach' : (c.relevanceScore ? '★' + c.relevanceScore : '')}</span>
+      </div>`).join('');
   }
 
-  function animateCount(target, el, suffix) {
-    suffix = suffix || '';
-    let current = 0;
-    const step = Math.ceil(target / 25);
-    const timer = setInterval(() => {
-      current = Math.min(current + step, target);
-      el.textContent = current + suffix;
-      if (current >= target) clearInterval(timer);
-    }, 30);
+  function renderLocked(containerId, items, start, count, moreText) {
+    const el = document.getElementById(containerId);
+    const locked = items.slice(start, start + count);
+    const rows = locked.length > 0
+      ? locked.map(c => `<div class="preview-item"><span class="preview-item-name">${esc(c.name || '████████')}</span><span class="preview-item-desc">${esc(c.description || c.outlet || '████████████')}</span><span class="preview-item-tag"></span></div>`).join('')
+      : `<div class="preview-item"><span class="preview-item-name">████████████</span><span class="preview-item-desc">████████████████</span><span class="preview-item-tag"></span></div>
+         <div class="preview-item"><span class="preview-item-name">██████████</span><span class="preview-item-desc">██████████████</span><span class="preview-item-tag"></span></div>`;
+    el.innerHTML = rows + `<div class="preview-locked-overlay"><span class="preview-locked-text">${moreText}</span></div>`;
   }
 
-  // ── Go to Preview page ──
-  async function goToStep2() {
+  // ── Preview page — uses data from analyze API ──
+  function goToStep2() {
     hideAllPages();
     document.getElementById('page-preview').classList.add('active');
     window.scrollTo(0, 0);
 
-    const pName = formData.name || 'your startup';
-    document.getElementById('preview-product-name').textContent = pName;
+    document.getElementById('preview-product-name').textContent = formData.name || 'your startup';
 
-    const c = formData.counts || { dirs: 1000, jours: 3500, pods: 5000, reach: 50 };
-
-    // Update summary stats (same as step 1)
+    const c = formData.counts || { dirs: 1000, jours: 3500, pods: 5000, news: 800, reach: 50 };
     document.getElementById('ps-directories').textContent = c.dirs.toLocaleString();
     document.getElementById('ps-journalists').textContent = c.jours.toLocaleString();
     document.getElementById('ps-podcasts').textContent = c.pods.toLocaleString();
@@ -1928,91 +1865,64 @@
     const SHOW = 6;
     const LOCKED = 3;
 
-    // Use analyzed/matched contacts if available, otherwise fallback to generic
-    let dirs, jours, pods, news;
+    // Get contacts from analysis (already fetched in step 1)
+    const a = formData.analysis;
+    const dirs = (a && a.contacts && a.contacts.directories) || [];
+    const jours = (a && a.contacts && a.contacts.journalists) || [];
+    const pods = (a && a.contacts && a.contacts.podcasts) || [];
+    const news = (a && a.contacts && a.contacts.newsletters) || [];
 
-    if (formData.analysis && formData.analysis.contacts) {
-      // We have matched results from URL analysis
-      dirs = formData.analysis.contacts.directories || [];
-      jours = formData.analysis.contacts.journalists || [];
-      pods = formData.analysis.contacts.podcasts || [];
-      news = formData.analysis.contacts.newsletters || [];
-    } else {
-      // Fallback: fetch generic contacts sorted by audience
-      [dirs, jours, pods, news] = await Promise.all([
-        fetchContacts('directory', SHOW + LOCKED),
-        fetchContacts('journalist', SHOW + LOCKED),
-        fetchContacts('podcast', SHOW + LOCKED),
-        fetchContacts('newsletter', SHOW + LOCKED),
-      ]);
+    // Show keywords used for matching
+    if (a && a.keywords && a.keywords.length) {
+      console.log('Matching keywords:', a.keywords);
+    }
+    if (a && a.urlMeta) {
+      console.log('URL metadata:', a.urlMeta);
     }
 
-    // Backfill if analysis returned too few
-    if (dirs.length < SHOW + LOCKED) {
-      const extra = await fetchContacts('directory', (SHOW + LOCKED) - dirs.length);
-      const names = new Set(dirs.map(d => d.name));
-      dirs = [...dirs, ...extra.filter(d => !names.has(d.name))];
-    }
-    if (jours.length < SHOW + LOCKED) {
-      const extra = await fetchContacts('journalist', (SHOW + LOCKED) - jours.length);
-      const names = new Set(jours.map(d => d.name));
-      jours = [...jours, ...extra.filter(d => !names.has(d.name))];
-    }
-    if (pods.length < SHOW + LOCKED) {
-      const extra = await fetchContacts('podcast', (SHOW + LOCKED) - pods.length);
-      const names = new Set(pods.map(d => d.name));
-      pods = [...pods, ...extra.filter(d => !names.has(d.name))];
-    }
-
-    previewData = { directories: dirs, journalists: jours, podcasts: pods, newsletters: news };
-
-    // Render directories
-    renderPreviewItems('preview-directories', dirs, SHOW);
+    // Directories
+    renderItems('preview-directories', dirs, SHOW);
     document.getElementById('psc-directories').textContent = c.dirs.toLocaleString() + ' total in database';
-    renderLockedItems('preview-directories-locked', dirs, SHOW, LOCKED,
+    renderLocked('preview-directories-locked', dirs, SHOW, LOCKED,
       '+ ' + Math.max(0, c.dirs - SHOW).toLocaleString() + ' more directories unlocked on purchase');
 
-    // Render journalists
-    renderPreviewItems('preview-journalists', jours, SHOW);
+    // Journalists
+    renderItems('preview-journalists', jours, SHOW);
     document.getElementById('psc-journalists').textContent = c.jours.toLocaleString() + ' total in database';
-    renderLockedItems('preview-journalists-locked', jours, SHOW, LOCKED,
+    renderLocked('preview-journalists-locked', jours, SHOW, LOCKED,
       '+ ' + Math.max(0, c.jours - SHOW).toLocaleString() + ' more journalists unlocked on purchase');
 
-    // Render podcasts
-    renderPreviewItems('preview-podcasts', pods, SHOW);
+    // Podcasts
+    renderItems('preview-podcasts', pods, SHOW);
     document.getElementById('psc-podcasts').textContent = c.pods.toLocaleString() + ' total in database';
-    renderLockedItems('preview-podcasts-locked', pods, SHOW, LOCKED,
+    renderLocked('preview-podcasts-locked', pods, SHOW, LOCKED,
       '+ ' + Math.max(0, c.pods - SHOW).toLocaleString() + ' more podcasts unlocked on purchase');
 
-    // Render newsletters
+    // Newsletters
     if (news.length > 0) {
       document.getElementById('preview-newsletters-section').style.display = 'block';
-      renderPreviewItems('preview-newsletters', news, SHOW);
-      document.getElementById('psc-newsletters').textContent = c.news.toLocaleString() + ' total';
+      renderItems('preview-newsletters', news, SHOW);
+      document.getElementById('psc-newsletters').textContent = (c.news || news.length).toLocaleString() + ' total';
     }
   }
 
-  // ── Navigate: preview → step2 ──
+  // ── Navigation ──
   function goToStep2FromPreview() {
     hideAllPages();
     document.getElementById('page-step2').classList.add('active');
     window.scrollTo(0, 0);
-
-    // Pre-fill from step 1
     if (formData.name) document.getElementById('s2-name').value = formData.name;
     if (formData.url) document.getElementById('s2-url').value = formData.url;
     if (formData.description) document.getElementById('s2-description').value = formData.description;
     if (formData.category) document.getElementById('s2-category').value = formData.category;
   }
 
-  // ── Navigate: back to preview from step2 ──
   function goToPreview() {
     hideAllPages();
     document.getElementById('page-preview').classList.add('active');
     window.scrollTo(0, 0);
   }
 
-  // ── Go home ──
   function goHome() {
     hideAllPages();
     document.getElementById('page-home').style.display = 'block';
@@ -2026,7 +1936,7 @@
     document.getElementById('page-success').classList.remove('active');
   }
 
-  // ── Handle payment ──
+  // ── Payment ──
   function handlePayment() {
     const name = document.getElementById('s2-name').value.trim();
     const url = document.getElementById('s2-url').value.trim();
@@ -2042,28 +1952,18 @@
     const audience = document.getElementById('s2-audience').value.trim();
 
     if (!name || !url || !tagline || !description || !founderName || !email) {
-      alert('Please fill in all required fields (marked with *)');
-      return;
+      return alert('Please fill in all required fields (marked with *)');
     }
-
     if (!email.includes('@')) {
-      alert('Please enter a valid email address');
-      return;
+      return alert('Please enter a valid email address');
     }
 
     saveLead({
-      product_name: name,
-      product_url: url,
-      tagline: tagline,
-      description: description,
-      category: category || null,
-      pricing_model: pricing || null,
-      founder_name: founderName,
-      email: email,
-      logo_url: logo || null,
-      twitter: twitter || null,
-      features: features || null,
-      target_audience: audience || null,
+      product_name: name, product_url: url, tagline, description,
+      category: category || null, pricing_model: pricing || null,
+      founder_name: founderName, email,
+      logo_url: logo || null, twitter: twitter || null,
+      features: features || null, target_audience: audience || null,
       step: 'step2_checkout',
       created_at: new Date().toISOString()
     });
@@ -2071,7 +1971,7 @@
     window.location.href = STRIPE_PAYMENT_LINK + '?prefilled_email=' + encodeURIComponent(email);
   }
 
-  // ── Check for success return from Stripe ──
+  // ── Success page check ──
   if (window.location.search.includes('success=true') || window.location.hash === '#success') {
     document.getElementById('page-home').style.display = 'none';
     document.getElementById('page-success').classList.add('active');
