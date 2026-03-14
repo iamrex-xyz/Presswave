@@ -745,6 +745,204 @@
     letter-spacing: 0.06em;
   }
 
+  /* ── PREVIEW PAGE ── */
+  .page-preview { display: none; min-height: 100vh; }
+  .page-preview.active { display: block; }
+
+  .preview-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .preview-hero {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .preview-hero h1 {
+    font-family: var(--serif);
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+
+  .preview-hero p {
+    font-size: 16px;
+    color: var(--mid);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .preview-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-bottom: 48px;
+  }
+
+  .preview-summary-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 24px 20px;
+    text-align: center;
+  }
+
+  .preview-summary-num {
+    font-family: var(--serif);
+    font-size: 36px;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .preview-summary-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.5);
+  }
+
+  .preview-section {
+    margin-bottom: 40px;
+  }
+
+  .preview-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 16px;
+  }
+
+  .preview-section-title {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .preview-section-count {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.06em;
+  }
+
+  .preview-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .preview-item {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 16px;
+    background: var(--warm);
+    transition: background 0.15s;
+  }
+
+  .preview-item:hover { background: var(--accent-light); }
+
+  .preview-item-name {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .preview-item-desc {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .preview-item-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .preview-locked {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .preview-locked .preview-item {
+    filter: blur(3px);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .preview-locked-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, var(--paper) 90%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 20px;
+  }
+
+  .preview-locked-text {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--mid);
+    letter-spacing: 0.04em;
+    background: var(--paper);
+    padding: 4px 12px;
+  }
+
+  .preview-cta-wrap {
+    text-align: center;
+    padding: 48px 0 0;
+    border-top: 1px solid var(--rule);
+    margin-top: 16px;
+  }
+
+  .preview-cta-wrap p {
+    font-size: 15px;
+    color: var(--mid);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .preview-cta-wrap .price-big {
+    font-family: var(--serif);
+    font-size: 48px;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .preview-cta-wrap .price-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.06em;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .preview-summary { grid-template-columns: repeat(2, 1fr); }
+    .preview-item { grid-template-columns: 1fr auto; }
+    .preview-item-desc { display: none; }
+  }
+
   /* ── SUCCESS PAGE ── */
   .success-container {
     max-width: 640px;
@@ -1158,17 +1356,130 @@
 
 
 <!-- ═══════════════════════════════════════ -->
+<!-- PAGE 1.5: PREVIEW (Your matches)      -->
+<!-- ═══════════════════════════════════════ -->
+<div id="page-preview" class="page-preview">
+
+<nav>
+  <a href="#" class="logo" onclick="goHome(); return false;">Press<span>wave</span></a>
+  <span class="nav-tag">Your matches</span>
+</nav>
+
+<div class="preview-container">
+  <button class="step2-back" onclick="goHome()">← Back</button>
+
+  <div class="preview-hero">
+    <h1>Here's what we found for <em id="preview-product-name">your startup</em></h1>
+    <p>These are the directories, journalists, and podcasts matched to your product. Unlock all contacts and get auto-listed with one boost.</p>
+  </div>
+
+  <!-- Summary stats -->
+  <div class="preview-summary">
+    <div class="preview-summary-card">
+      <div class="preview-summary-num" id="ps-directories">0</div>
+      <div class="preview-summary-label">Directories</div>
+    </div>
+    <div class="preview-summary-card">
+      <div class="preview-summary-num" id="ps-journalists">0</div>
+      <div class="preview-summary-label">Journalists</div>
+    </div>
+    <div class="preview-summary-card">
+      <div class="preview-summary-num" id="ps-podcasts">0</div>
+      <div class="preview-summary-label">Podcasts</div>
+    </div>
+    <div class="preview-summary-card">
+      <div class="preview-summary-num" id="ps-reach">0</div>
+      <div class="preview-summary-label">Est. reach</div>
+    </div>
+  </div>
+
+  <!-- Directories -->
+  <div class="preview-section">
+    <div class="preview-section-header">
+      <div class="preview-section-title">📁 Directories we'll list you on</div>
+      <div class="preview-section-count" id="psc-directories"></div>
+    </div>
+    <div class="preview-list" id="preview-directories"></div>
+    <div class="preview-locked" id="preview-directories-locked">
+      <div class="preview-item"><span class="preview-item-name">Loading...</span><span class="preview-item-desc"></span><span class="preview-item-tag"></span></div>
+      <div class="preview-locked-overlay">
+        <span class="preview-locked-text" id="pl-dirs">+ more directories unlocked on purchase</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Journalists -->
+  <div class="preview-section">
+    <div class="preview-section-header">
+      <div class="preview-section-title">📰 Journalists who cover your niche</div>
+      <div class="preview-section-count" id="psc-journalists"></div>
+    </div>
+    <div class="preview-list" id="preview-journalists"></div>
+    <div class="preview-locked" id="preview-journalists-locked">
+      <div class="preview-item"><span class="preview-item-name">Loading...</span><span class="preview-item-desc"></span><span class="preview-item-tag"></span></div>
+      <div class="preview-locked-overlay">
+        <span class="preview-locked-text" id="pl-jours">+ more journalists unlocked on purchase</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Podcasts -->
+  <div class="preview-section">
+    <div class="preview-section-header">
+      <div class="preview-section-title">🎙️ Podcasts that feature startups like yours</div>
+      <div class="preview-section-count" id="psc-podcasts"></div>
+    </div>
+    <div class="preview-list" id="preview-podcasts"></div>
+    <div class="preview-locked" id="preview-podcasts-locked">
+      <div class="preview-item"><span class="preview-item-name">Loading...</span><span class="preview-item-desc"></span><span class="preview-item-tag"></span></div>
+      <div class="preview-locked-overlay">
+        <span class="preview-locked-text" id="pl-pods">+ more podcasts unlocked on purchase</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newsletters -->
+  <div class="preview-section" id="preview-newsletters-section" style="display:none;">
+    <div class="preview-section-header">
+      <div class="preview-section-title">📧 Newsletters in your space</div>
+      <div class="preview-section-count" id="psc-newsletters"></div>
+    </div>
+    <div class="preview-list" id="preview-newsletters"></div>
+  </div>
+
+  <!-- CTA -->
+  <div class="preview-cta-wrap">
+    <p>Get listed on all matched directories, receive full journalist contact data, and get a visibility report — all for one price.</p>
+    <div class="price-big">$49</div>
+    <div class="price-sub">One-time · No subscription</div>
+    <button class="calc-btn" style="max-width: 400px; margin: 0 auto;" onclick="goToStep2FromPreview()">
+      <span>Get my boost</span>
+      <span class="btn-icon">→</span>
+    </button>
+    <p class="form-note" style="margin-top: 12px;">Listings start within 24 hours · Contacts emailed to you</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Press<span>wave</span></div>
+  <div class="footer-note">A Napkin Labs venture · Powered by AI</div>
+</footer>
+
+</div><!-- /page-preview -->
+
+
+<!-- ═══════════════════════════════════════ -->
 <!-- PAGE 2: TELL US MORE (Step 2)         -->
 <!-- ═══════════════════════════════════════ -->
 <div id="page-step2" class="page-step2">
 
 <nav>
   <a href="#" class="logo" onclick="goHome(); return false;">Press<span>wave</span></a>
-  <span class="nav-tag">Step 2 of 2</span>
+  <span class="nav-tag">Final step</span>
 </nav>
 
 <div class="step2-container">
-  <button class="step2-back" onclick="goHome()">← Back</button>
+  <button class="step2-back" onclick="goToPreview()">← Back to matches</button>
 
   <div class="form-card">
     <span class="form-label">Tell us about your startup</span>
@@ -1323,13 +1634,13 @@
   // ── STRIPE PAYMENT LINK ──
   const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_fZu00lfJP5pDaiY1vgfAc00';
 
-  // Store form data across steps
   let formData = {};
+  let previewData = { directories: [], journalists: [], podcasts: [], newsletters: [] };
 
   // ── Save lead to Supabase ──
   async function saveLead(data) {
     try {
-      const res = await fetch(SUPABASE_URL + '/rest/v1/leads', {
+      await fetch(SUPABASE_URL + '/rest/v1/leads', {
         method: 'POST',
         headers: {
           'apikey': SUPABASE_ANON_KEY,
@@ -1339,14 +1650,87 @@
         },
         body: JSON.stringify(data)
       });
-      console.log('Lead saved:', res.status);
     } catch (e) {
       console.error('Lead save failed:', e);
-      // Don't block the user flow
     }
   }
 
-  // ── Step 1: Show matches ──
+  // ── Fetch contacts from Supabase ──
+  async function fetchContacts(type, limit) {
+    try {
+      const res = await fetch(
+        SUPABASE_URL + '/rest/v1/media_contacts?type=eq.' + type +
+        '&select=name,outlet,description,audience_size,website' +
+        '&order=audience_size.desc.nullslast&limit=' + limit,
+        {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+          }
+        }
+      );
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.error('Fetch failed for', type, e);
+    }
+    return [];
+  }
+
+  // ── Fetch total counts ──
+  async function fetchCount(type) {
+    try {
+      const res = await fetch(
+        SUPABASE_URL + '/rest/v1/media_contacts?type=eq.' + type + '&select=id',
+        {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Prefer': 'count=exact',
+            'Range': '0-0'
+          }
+        }
+      );
+      const range = res.headers.get('content-range');
+      if (range) {
+        const total = range.split('/')[1];
+        return parseInt(total) || 0;
+      }
+    } catch (e) {}
+    return 0;
+  }
+
+  // ── Render preview items ──
+  function renderPreviewItems(containerId, items, shown) {
+    const el = document.getElementById(containerId);
+    el.innerHTML = items.slice(0, shown).map(c => `
+      <div class="preview-item">
+        <span class="preview-item-name">${esc(c.name || 'Unknown')}</span>
+        <span class="preview-item-desc">${esc(c.description || c.outlet || '')}</span>
+        <span class="preview-item-tag">${c.audience_size ? formatNum(c.audience_size) + ' reach' : ''}</span>
+      </div>
+    `).join('');
+  }
+
+  function renderLockedItems(containerId, items, start, count) {
+    const el = document.getElementById(containerId);
+    const locked = items.slice(start, start + count);
+    if (locked.length === 0) {
+      el.style.display = 'none';
+      return;
+    }
+    el.innerHTML = locked.map(c => `
+      <div class="preview-item">
+        <span class="preview-item-name">${esc(c.name || 'Unknown')}</span>
+        <span class="preview-item-desc">${esc(c.description || c.outlet || '')}</span>
+        <span class="preview-item-tag">${c.audience_size ? formatNum(c.audience_size) + ' reach' : ''}</span>
+      </div>
+    `).join('') + `<div class="preview-locked-overlay"><span class="preview-locked-text">${el.dataset.more || ''}</span></div>`;
+  }
+
+  function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+  function formatNum(n) { if (n >= 1e6) return (n/1e6).toFixed(1)+'M'; if (n >= 1e3) return (n/1e3).toFixed(0)+'K'; return n.toString(); }
+
+  // ── Step 1: Show matches (on homepage) ──
   function showMatches() {
     const desc = document.getElementById('product-desc').value.trim();
     const url = document.getElementById('product-url').value.trim();
@@ -1359,14 +1743,12 @@
       return;
     }
 
-    // Store for step 2
     formData = { description: desc, url: url, name: name, category: category };
 
     const btn = document.getElementById('calc-btn');
     btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
     btn.disabled = true;
 
-    // Save lead immediately (step 1 data)
     saveLead({
       product_name: name || null,
       product_url: url || null,
@@ -1377,11 +1759,12 @@
     });
 
     setTimeout(() => {
-      // Calculate match counts based on category
       const dirBase = 120 + Math.floor(Math.random() * 60);
       const jourBase = 35 + Math.floor(Math.random() * 25);
       const podBase = 15 + Math.floor(Math.random() * 15);
       const reachBase = 8 + Math.floor(Math.random() * 12);
+
+      formData.counts = { dirs: dirBase, jours: jourBase, pods: podBase, reach: reachBase };
 
       animateCount(dirBase, document.getElementById('dir-count'));
       animateCount(jourBase, document.getElementById('jour-count'));
@@ -1409,9 +1792,73 @@
     }, 30);
   }
 
-  // ── Go to Step 2 ──
-  function goToStep2() {
-    document.getElementById('page-home').style.display = 'none';
+  // ── Go to Preview page ──
+  async function goToStep2() {
+    // Hide home, show preview
+    hideAllPages();
+    document.getElementById('page-preview').classList.add('active');
+    window.scrollTo(0, 0);
+
+    // Set product name
+    const pName = formData.name || 'your startup';
+    document.getElementById('preview-product-name').textContent = pName;
+
+    // Show stats from step 1
+    const c = formData.counts || { dirs: 140, jours: 45, pods: 20, reach: 12 };
+    document.getElementById('ps-directories').textContent = c.dirs;
+    document.getElementById('ps-journalists').textContent = c.jours;
+    document.getElementById('ps-podcasts').textContent = c.pods;
+    document.getElementById('ps-reach').textContent = c.reach + 'M+';
+
+    // Fetch real contacts from Supabase
+    const SHOW = 6; // visible items per category
+    const LOCKED = 3; // blurred items
+
+    const [dirs, jours, pods, news, dirCount, jourCount, podCount, newsCount] = await Promise.all([
+      fetchContacts('directory', SHOW + LOCKED),
+      fetchContacts('journalist', SHOW + LOCKED),
+      fetchContacts('podcast', SHOW + LOCKED),
+      fetchContacts('newsletter', SHOW + LOCKED),
+      fetchCount('directory'),
+      fetchCount('journalist'),
+      fetchCount('podcast'),
+      fetchCount('newsletter')
+    ]);
+
+    previewData = { directories: dirs, journalists: jours, podcasts: pods, newsletters: news };
+
+    // Render directories
+    renderPreviewItems('preview-directories', dirs, SHOW);
+    document.getElementById('psc-directories').textContent = dirCount + ' total in database';
+    const dirLocked = document.getElementById('preview-directories-locked');
+    dirLocked.dataset.more = '+ ' + (dirCount - SHOW) + ' more directories unlocked on purchase';
+    renderLockedItems('preview-directories-locked', dirs, SHOW, LOCKED);
+    document.getElementById('pl-dirs').textContent = '+ ' + (dirCount - SHOW) + ' more directories unlocked';
+
+    // Render journalists
+    renderPreviewItems('preview-journalists', jours, SHOW);
+    document.getElementById('psc-journalists').textContent = jourCount + ' total in database';
+    const jourLocked = document.getElementById('preview-journalists-locked');
+    renderLockedItems('preview-journalists-locked', jours, SHOW, LOCKED);
+    document.getElementById('pl-jours').textContent = '+ ' + (jourCount - SHOW) + ' more journalists unlocked';
+
+    // Render podcasts
+    renderPreviewItems('preview-podcasts', pods, SHOW);
+    document.getElementById('psc-podcasts').textContent = podCount + ' total in database';
+    renderLockedItems('preview-podcasts-locked', pods, SHOW, LOCKED);
+    document.getElementById('pl-pods').textContent = '+ ' + (podCount - SHOW) + ' more podcasts unlocked';
+
+    // Render newsletters (if any)
+    if (news.length > 0) {
+      document.getElementById('preview-newsletters-section').style.display = 'block';
+      renderPreviewItems('preview-newsletters', news, SHOW);
+      document.getElementById('psc-newsletters').textContent = newsCount + ' total';
+    }
+  }
+
+  // ── Navigate: preview → step2 ──
+  function goToStep2FromPreview() {
+    hideAllPages();
     document.getElementById('page-step2').classList.add('active');
     window.scrollTo(0, 0);
 
@@ -1422,12 +1869,25 @@
     if (formData.category) document.getElementById('s2-category').value = formData.category;
   }
 
+  // ── Navigate: back to preview from step2 ──
+  function goToPreview() {
+    hideAllPages();
+    document.getElementById('page-preview').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
   // ── Go home ──
   function goHome() {
+    hideAllPages();
     document.getElementById('page-home').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+
+  function hideAllPages() {
+    document.getElementById('page-home').style.display = 'none';
+    document.getElementById('page-preview').classList.remove('active');
     document.getElementById('page-step2').classList.remove('active');
     document.getElementById('page-success').classList.remove('active');
-    window.scrollTo(0, 0);
   }
 
   // ── Handle payment ──
@@ -1445,7 +1905,6 @@
     const features = document.getElementById('s2-features').value.trim();
     const audience = document.getElementById('s2-audience').value.trim();
 
-    // Validate required fields
     if (!name || !url || !tagline || !description || !founderName || !email) {
       alert('Please fill in all required fields (marked with *)');
       return;
@@ -1456,7 +1915,6 @@
       return;
     }
 
-    // Save full lead to Supabase immediately
     saveLead({
       product_name: name,
       product_url: url,
@@ -1474,7 +1932,6 @@
       created_at: new Date().toISOString()
     });
 
-    // Redirect to Stripe Payment Link
     window.location.href = STRIPE_PAYMENT_LINK + '?prefilled_email=' + encodeURIComponent(email);
   }
 
