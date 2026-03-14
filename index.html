@@ -1844,12 +1844,13 @@
       created_at: new Date().toISOString()
     });
 
-    // Fetch real counts from database
-    const [dirCount, jourCount, podCount, newsCount] = await Promise.all([
+    // Fetch real counts + analyze startup URL in parallel
+    const [dirCount, jourCount, podCount, newsCount, analysisResult] = await Promise.all([
       fetchCount('directory'),
       fetchCount('journalist'),
       fetchCount('podcast'),
-      fetchCount('newsletter')
+      fetchCount('newsletter'),
+      analyzeStartup(desc, url, name, category)
     ]);
 
     const totalReach = Math.round((dirCount * 5000 + jourCount * 50000 + podCount * 10000) / 1e6);
@@ -1861,6 +1862,11 @@
       news: newsCount || 800,
       reach: totalReach || 50
     };
+
+    // Store analysis for preview page
+    if (analysisResult) {
+      formData.analysis = analysisResult;
+    }
 
     animateCount(formData.counts.dirs, document.getElementById('dir-count'));
     animateCount(formData.counts.jours, document.getElementById('jour-count'));
@@ -1876,6 +1882,21 @@
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
+  // ── Analyze startup via serverless API ──
+  async function analyzeStartup(description, url, name, category) {
+    try {
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ description, url, name, category })
+      });
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.error('Analysis failed:', e);
+    }
+    return null;
+  }
+
   function animateCount(target, el, suffix) {
     suffix = suffix || '';
     let current = 0;
@@ -1889,73 +1910,85 @@
 
   // ── Go to Preview page ──
   async function goToStep2() {
-    // Hide home, show preview
     hideAllPages();
     document.getElementById('page-preview').classList.add('active');
     window.scrollTo(0, 0);
 
-    // Set product name
     const pName = formData.name || 'your startup';
     document.getElementById('preview-product-name').textContent = pName;
 
-    // Show stats from step 1
-    const c = formData.counts || { dirs: 140, jours: 45, pods: 20, reach: 12 };
-    document.getElementById('ps-directories').textContent = c.dirs;
-    document.getElementById('ps-journalists').textContent = c.jours;
-    document.getElementById('ps-podcasts').textContent = c.pods;
+    const c = formData.counts || { dirs: 1000, jours: 3500, pods: 5000, reach: 50 };
+
+    // Update summary stats (same as step 1)
+    document.getElementById('ps-directories').textContent = c.dirs.toLocaleString();
+    document.getElementById('ps-journalists').textContent = c.jours.toLocaleString();
+    document.getElementById('ps-podcasts').textContent = c.pods.toLocaleString();
     document.getElementById('ps-reach').textContent = c.reach + 'M+';
 
-    // Fetch real contacts from Supabase
-    const SHOW = 6; // visible items per category
-    const LOCKED = 3; // blurred items
+    const SHOW = 6;
+    const LOCKED = 3;
 
-    const [dirs, jours, pods, news, dirCount, jourCount, podCount, newsCount] = await Promise.all([
-      fetchContacts('directory', SHOW + LOCKED),
-      fetchContacts('journalist', SHOW + LOCKED),
-      fetchContacts('podcast', SHOW + LOCKED),
-      fetchContacts('newsletter', SHOW + LOCKED),
-      fetchCount('directory'),
-      fetchCount('journalist'),
-      fetchCount('podcast'),
-      fetchCount('newsletter')
-    ]);
+    // Use analyzed/matched contacts if available, otherwise fallback to generic
+    let dirs, jours, pods, news;
+
+    if (formData.analysis && formData.analysis.contacts) {
+      // We have matched results from URL analysis
+      dirs = formData.analysis.contacts.directories || [];
+      jours = formData.analysis.contacts.journalists || [];
+      pods = formData.analysis.contacts.podcasts || [];
+      news = formData.analysis.contacts.newsletters || [];
+    } else {
+      // Fallback: fetch generic contacts sorted by audience
+      [dirs, jours, pods, news] = await Promise.all([
+        fetchContacts('directory', SHOW + LOCKED),
+        fetchContacts('journalist', SHOW + LOCKED),
+        fetchContacts('podcast', SHOW + LOCKED),
+        fetchContacts('newsletter', SHOW + LOCKED),
+      ]);
+    }
+
+    // Backfill if analysis returned too few
+    if (dirs.length < SHOW + LOCKED) {
+      const extra = await fetchContacts('directory', (SHOW + LOCKED) - dirs.length);
+      const names = new Set(dirs.map(d => d.name));
+      dirs = [...dirs, ...extra.filter(d => !names.has(d.name))];
+    }
+    if (jours.length < SHOW + LOCKED) {
+      const extra = await fetchContacts('journalist', (SHOW + LOCKED) - jours.length);
+      const names = new Set(jours.map(d => d.name));
+      jours = [...jours, ...extra.filter(d => !names.has(d.name))];
+    }
+    if (pods.length < SHOW + LOCKED) {
+      const extra = await fetchContacts('podcast', (SHOW + LOCKED) - pods.length);
+      const names = new Set(pods.map(d => d.name));
+      pods = [...pods, ...extra.filter(d => !names.has(d.name))];
+    }
 
     previewData = { directories: dirs, journalists: jours, podcasts: pods, newsletters: news };
 
-    // Use same counts from step 1 (already from real DB)
-    const realDirCount = c.dirs;
-    const realJourCount = c.jours;
-    const realPodCount = c.pods;
-
-    // Update summary with same counts as step 1
-    document.getElementById('ps-directories').textContent = realDirCount.toLocaleString();
-    document.getElementById('ps-journalists').textContent = realJourCount.toLocaleString();
-    document.getElementById('ps-podcasts').textContent = realPodCount.toLocaleString();
-    document.getElementById('ps-reach').textContent = c.reach + 'M+';
-
     // Render directories
     renderPreviewItems('preview-directories', dirs, SHOW);
-    document.getElementById('psc-directories').textContent = realDirCount + ' total in database';
+    document.getElementById('psc-directories').textContent = c.dirs.toLocaleString() + ' total in database';
     renderLockedItems('preview-directories-locked', dirs, SHOW, LOCKED,
-      '+ ' + Math.max(0, realDirCount - SHOW) + ' more directories unlocked on purchase');
+      '+ ' + Math.max(0, c.dirs - SHOW).toLocaleString() + ' more directories unlocked on purchase');
 
     // Render journalists
     renderPreviewItems('preview-journalists', jours, SHOW);
-    document.getElementById('psc-journalists').textContent = realJourCount + ' total in database';
+    document.getElementById('psc-journalists').textContent = c.jours.toLocaleString() + ' total in database';
     renderLockedItems('preview-journalists-locked', jours, SHOW, LOCKED,
-      '+ ' + Math.max(0, realJourCount - SHOW) + ' more journalists unlocked on purchase');
+      '+ ' + Math.max(0, c.jours - SHOW).toLocaleString() + ' more journalists unlocked on purchase');
 
     // Render podcasts
     renderPreviewItems('preview-podcasts', pods, SHOW);
-    document.getElementById('psc-podcasts').textContent = realPodCount + ' total in database';
+    document.getElementById('psc-podcasts').textContent = c.pods.toLocaleString() + ' total in database';
     renderLockedItems('preview-podcasts-locked', pods, SHOW, LOCKED,
-      '+ ' + Math.max(0, realPodCount - SHOW) + ' more podcasts unlocked on purchase');
+      '+ ' + Math.max(0, c.pods - SHOW).toLocaleString() + ' more podcasts unlocked on purchase');
 
-    // Render newsletters (if any)
+    // Render newsletters
     if (news.length > 0) {
       document.getElementById('preview-newsletters-section').style.display = 'block';
       renderPreviewItems('preview-newsletters', news, SHOW);
-      document.getElementById('psc-newsletters').textContent = (newsCount || news.length) + ' total';
+      document.getElementById('psc-newsletters').textContent = c.news.toLocaleString() + ' total';
     }
   }
 
