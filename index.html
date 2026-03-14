@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Presswave — Your Autonomous PR Agent</title>
+<title>Presswave — Automated Visibility for Startups</title>
+<meta name="description" content="Get your startup auto-listed on 1,000+ directories and matched with relevant journalists. One click, millions of potential views.">
+<meta property="og:title" content="Presswave — Automated Visibility for Startups">
+<meta property="og:description" content="One-time automated boost. Directory listings + journalist contacts + full report.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://presswave.xyz">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -34,7 +40,6 @@
     overflow-x: hidden;
   }
 
-  /* ── NOISE OVERLAY ── */
   body::before {
     content: '';
     position: fixed;
@@ -61,15 +66,13 @@
   .logo {
     font-family: var(--sans);
     font-weight: 800;
-    font-size: 18px;
+    font-size: 24px;
     letter-spacing: -0.02em;
     color: var(--ink);
     text-decoration: none;
   }
 
-  .logo span {
-    color: var(--accent);
-  }
+  .logo span { color: var(--accent); }
 
   .nav-tag {
     font-family: var(--mono);
@@ -78,6 +81,40 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    overflow: hidden;
+    border-bottom: 1px solid var(--rule);
+    background: var(--warm);
+    padding: 12px 0;
+  }
+
+  .ticker {
+    display: flex;
+    gap: 48px;
+    animation: ticker 25s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .ticker-item {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .ticker-item::after { content: '·'; color: var(--accent); }
 
   /* ── HERO ── */
   .hero {
@@ -89,8 +126,6 @@
     gap: 80px;
     align-items: start;
   }
-
-  .hero-left {}
 
   .hero-eyebrow {
     font-family: var(--mono);
@@ -114,25 +149,45 @@
 
   h1 {
     font-family: var(--serif);
-    font-size: clamp(48px, 5vw, 72px);
+    font-size: clamp(44px, 5vw, 68px);
     line-height: 1.05;
     letter-spacing: -0.02em;
     color: var(--ink);
     margin-bottom: 28px;
   }
 
-  h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
+  h1 em { font-style: italic; color: var(--accent); }
 
   .hero-sub {
     font-size: 17px;
     line-height: 1.65;
     color: var(--mid);
-    max-width: 420px;
-    margin-bottom: 40px;
+    max-width: 440px;
+    margin-bottom: 32px;
     font-weight: 400;
+  }
+
+  .hero-features {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+
+  .hero-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .hero-feature .check {
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
   .hero-stats {
@@ -142,7 +197,6 @@
     border-top: 1px solid var(--rule);
   }
 
-  .stat {}
   .stat-num {
     font-family: var(--serif);
     font-size: 32px;
@@ -150,6 +204,7 @@
     line-height: 1;
     margin-bottom: 4px;
   }
+
   .stat-label {
     font-family: var(--mono);
     font-size: 10px;
@@ -158,11 +213,8 @@
     color: var(--mid);
   }
 
-  /* ── FORM CARD ── */
-  .hero-right {
-    position: sticky;
-    top: 100px;
-  }
+  /* ── FORM CARD (Step 1 - Homepage) ── */
+  .hero-right { position: sticky; top: 100px; }
 
   .form-card {
     background: var(--ink);
@@ -202,16 +254,14 @@
     color: var(--paper);
   }
 
-  .form-card p {
+  .form-card .form-intro {
     font-size: 13px;
     color: rgba(245,242,236,0.5);
     margin-bottom: 28px;
     line-height: 1.5;
   }
 
-  .field {
-    margin-bottom: 16px;
-  }
+  .field { margin-bottom: 16px; }
 
   .field label {
     font-family: var(--mono);
@@ -240,14 +290,8 @@
     -webkit-appearance: none;
   }
 
-  .field select {
-    cursor: pointer;
-  }
-
-  .field select option {
-    background: #1a1a1a;
-    color: var(--paper);
-  }
+  .field select { cursor: pointer; }
+  .field select option { background: #1a1a1a; color: var(--paper); }
 
   .field textarea:focus,
   .field input:focus,
@@ -257,11 +301,14 @@
   }
 
   .field textarea::placeholder,
-  .field input::placeholder {
-    color: rgba(245,242,236,0.25);
+  .field input::placeholder { color: rgba(245,242,236,0.25); }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 
-  /* ── CALCULATE BUTTON ── */
   .calc-btn {
     width: 100%;
     background: var(--accent);
@@ -280,29 +327,23 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    position: relative;
-    overflow: hidden;
   }
 
-  .calc-btn:hover {
-    background: #b8441a;
-    transform: translateY(-1px);
+  .calc-btn:hover { background: #b8441a; transform: translateY(-1px); }
+  .calc-btn:active { transform: translateY(0); }
+  .calc-btn .btn-icon { font-size: 16px; transition: transform 0.3s; }
+  .calc-btn:hover .btn-icon { transform: translateX(4px); }
+
+  .form-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(245,242,236,0.3);
+    text-align: center;
+    margin-top: 12px;
+    letter-spacing: 0.04em;
   }
 
-  .calc-btn:active {
-    transform: translateY(0);
-  }
-
-  .calc-btn .btn-icon {
-    font-size: 16px;
-    transition: transform 0.3s;
-  }
-
-  .calc-btn:hover .btn-icon {
-    transform: translateX(4px);
-  }
-
-  /* ── RESULT BOX ── */
+  /* ── RESULTS BOX ── */
   .result-box {
     display: none;
     margin-top: 20px;
@@ -313,79 +354,56 @@
     animation: fadeSlideUp 0.4s ease forwards;
   }
 
-  .result-box.visible {
-    display: block;
-  }
+  .result-box.visible { display: block; }
 
   @keyframes fadeSlideUp {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .result-count {
+  .result-header {
     font-family: var(--serif);
-    font-size: 48px;
+    font-size: 22px;
     color: var(--paper);
-    line-height: 1;
     margin-bottom: 4px;
   }
 
-  .result-count span {
-    color: var(--accent);
-  }
-
-  .result-desc {
+  .result-sub {
     font-family: var(--mono);
     font-size: 11px;
     color: rgba(245,242,236,0.45);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
     margin-bottom: 16px;
   }
 
-  .journalist-preview {
-    display: flex;
-    flex-direction: column;
+  .result-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
     margin-bottom: 16px;
   }
 
-  .journalist-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 10px;
+  .result-stat {
     background: rgba(255,255,255,0.04);
     border-radius: 2px;
-  }
-
-  .j-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-  }
-
-  .j-name {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--paper);
-    flex: 1;
-  }
-
-  .j-outlet {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: rgba(245,242,236,0.35);
-  }
-
-  .j-more {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: rgba(245,242,236,0.35);
+    padding: 12px;
     text-align: center;
-    padding: 4px;
+  }
+
+  .result-stat-num {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .result-stat-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.4);
   }
 
   .pay-btn {
@@ -404,12 +422,10 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    text-decoration: none;
   }
 
-  .pay-btn:hover {
-    background: #134a2e;
-    transform: translateY(-1px);
-  }
+  .pay-btn:hover { background: #134a2e; transform: translateY(-1px); }
 
   .pay-note {
     font-family: var(--mono);
@@ -417,8 +433,46 @@
     color: rgba(245,242,236,0.3);
     text-align: center;
     margin-top: 10px;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
   }
+
+  /* ── STEPS 2 — TELL US MORE (full page) ── */
+  .page-step2, .page-success {
+    display: none;
+    min-height: 100vh;
+  }
+
+  .page-step2.active, .page-success.active {
+    display: block;
+  }
+
+  .step2-container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  .step2-container .form-card {
+    background: var(--ink);
+    padding: 48px 40px;
+  }
+
+  .step2-back {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    margin-bottom: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    border: none;
+    background: none;
+  }
+
+  .step2-back:hover { color: var(--accent); }
 
   /* ── HOW IT WORKS ── */
   .section {
@@ -451,20 +505,17 @@
 
   .steps {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 2px;
   }
 
   .step {
     background: var(--warm);
     padding: 32px 28px;
-    position: relative;
     transition: background 0.2s;
   }
 
-  .step:hover {
-    background: var(--accent-light);
-  }
+  .step:hover { background: var(--accent-light); }
 
   .step-num {
     font-family: var(--mono);
@@ -495,138 +546,134 @@
     color: var(--mid);
   }
 
-  /* ── PRICING ── */
-  .pricing-section {
+  /* ── WHAT YOU GET ── */
+  .offer-section {
     padding: 80px 48px;
     background: var(--ink);
     color: var(--paper);
   }
 
-  .pricing-inner {
+  .offer-inner {
     max-width: 1100px;
     margin: 0 auto;
   }
 
-  .pricing-section .section-header {
+  .offer-section .section-header {
     border-bottom-color: rgba(255,255,255,0.1);
   }
 
-  .pricing-section .section-title {
-    color: var(--paper);
-  }
+  .offer-section .section-title { color: var(--paper); }
 
-  .pricing-cards {
+  .offer-card {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
   }
 
-  .pricing-card {
-    background: rgba(255,255,255,0.04);
-    padding: 36px 32px;
-    transition: background 0.2s;
-    position: relative;
+  .offer-details { }
+
+  .offer-price {
+    font-family: var(--serif);
+    font-size: 64px;
+    color: var(--paper);
+    line-height: 1;
+    margin-bottom: 4px;
   }
 
-  .pricing-card.featured {
+  .offer-price-sub {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: rgba(245,242,236,0.45);
+    letter-spacing: 0.06em;
+    margin-bottom: 32px;
+  }
+
+  .offer-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+
+  .offer-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 15px;
+    color: rgba(245,242,236,0.85);
+    line-height: 1.5;
+  }
+
+  .offer-list li .num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    background: rgba(212,82,26,0.15);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: -2px;
+  }
+
+  .offer-cta {
+    display: inline-flex;
     background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 16px 36px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    gap: 10px;
+    align-items: center;
+    text-decoration: none;
   }
 
-  .pricing-card:hover:not(.featured) {
-    background: rgba(255,255,255,0.07);
+  .offer-cta:hover { background: #b8441a; transform: translateY(-1px); }
+
+  .offer-visual {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 36px;
   }
 
-  .pricing-badge {
+  .offer-visual-title {
     font-family: var(--mono);
     font-size: 10px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(245,242,236,0.5);
+    color: rgba(245,242,236,0.35);
     margin-bottom: 20px;
   }
 
-  .pricing-card.featured .pricing-badge {
-    color: rgba(255,255,255,0.7);
-  }
-
-  .price {
-    font-family: var(--serif);
-    font-size: 52px;
-    line-height: 1;
-    color: var(--paper);
-    margin-bottom: 4px;
-  }
-
-  .price-sub {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: rgba(245,242,236,0.4);
-    margin-bottom: 28px;
-    letter-spacing: 0.06em;
-  }
-
-  .pricing-card.featured .price-sub {
-    color: rgba(255,255,255,0.6);
-  }
-
-  .pricing-features {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 32px;
-  }
-
-  .pricing-features li {
-    font-size: 13px;
-    color: rgba(245,242,236,0.7);
+  .offer-visual-item {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 14px;
+    color: rgba(245,242,236,0.7);
   }
 
-  .pricing-card.featured .pricing-features li {
-    color: rgba(255,255,255,0.85);
-  }
-
-  .pricing-features li::before {
-    content: '→';
-    color: var(--accent);
+  .offer-visual-item:last-child { border: none; }
+  .offer-visual-item .ov-icon { font-size: 18px; flex-shrink: 0; }
+  .offer-visual-item .ov-count {
+    font-family: var(--mono);
     font-size: 12px;
+    color: var(--accent);
+    margin-left: auto;
     flex-shrink: 0;
-  }
-
-  .pricing-card.featured .pricing-features li::before {
-    color: rgba(255,255,255,0.6);
-  }
-
-  .pricing-btn {
-    width: 100%;
-    background: rgba(255,255,255,0.08);
-    color: var(--paper);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 3px;
-    padding: 12px;
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.02em;
-  }
-
-  .pricing-card.featured .pricing-btn {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: var(--paper);
-  }
-
-  .pricing-btn:hover {
-    background: rgba(255,255,255,0.14);
-  }
-
-  .pricing-card.featured .pricing-btn:hover {
-    background: #1a1a1a;
   }
 
   /* ── SOCIAL PROOF ── */
@@ -685,7 +732,7 @@
   .footer-logo {
     font-family: var(--sans);
     font-weight: 800;
-    font-size: 16px;
+    font-size: 18px;
     color: var(--ink);
   }
 
@@ -698,45 +745,77 @@
     letter-spacing: 0.06em;
   }
 
-  /* ── TICKER ── */
-  .ticker-wrap {
-    overflow: hidden;
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    background: var(--warm);
-    padding: 12px 0;
+  /* ── SUCCESS PAGE ── */
+  .success-container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 100px 24px;
+    text-align: center;
   }
 
-  .ticker {
-    display: flex;
-    gap: 48px;
-    animation: ticker 20s linear infinite;
-    white-space: nowrap;
-    width: max-content;
+  .success-icon {
+    font-size: 64px;
+    margin-bottom: 24px;
   }
 
-  @keyframes ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+  .success-container h1 {
+    font-family: var(--serif);
+    font-size: 48px;
+    margin-bottom: 16px;
   }
 
-  .ticker-item {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  .success-container p {
+    font-size: 17px;
+    line-height: 1.65;
     color: var(--mid);
+    max-width: 480px;
+    margin: 0 auto 40px;
+  }
+
+  .success-card {
+    background: var(--warm);
+    border-radius: 4px;
+    padding: 32px;
+    text-align: left;
+    margin-bottom: 32px;
+  }
+
+  .success-card h3 {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .success-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .success-step {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--mid);
   }
 
-  .ticker-item::after {
-    content: '·';
+  .success-step .s-num {
+    font-family: var(--mono);
+    font-size: 11px;
     color: var(--accent);
+    background: var(--accent-light);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
 
-  /* ── LOADING DOTS ── */
+  /* ── LOADING ── */
   .dots {
     display: inline-flex;
     gap: 4px;
@@ -775,71 +854,95 @@
   .fade-in:nth-child(3) { animation-delay: 0.3s; }
   .fade-in:nth-child(4) { animation-delay: 0.4s; }
 
+  /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .hero { grid-template-columns: 1fr; gap: 48px; }
     .hero-right { position: static; }
-    .steps { grid-template-columns: 1fr 1fr; }
-    .pricing-cards { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .offer-card { grid-template-columns: 1fr; }
     .proof-grid { grid-template-columns: 1fr; }
+    .field-row { grid-template-columns: 1fr; }
     nav { padding: 20px 24px; }
     .hero, .section, .proof-section { padding-left: 24px; padding-right: 24px; }
-    .pricing-section { padding-left: 24px; padding-right: 24px; }
+    .offer-section { padding-left: 24px; padding-right: 24px; }
     footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ═══════════════════════════════════════ -->
+<!-- PAGE 1: HOMEPAGE                       -->
+<!-- ═══════════════════════════════════════ -->
+<div id="page-home">
+
 <nav>
   <a href="#" class="logo">Press<span>wave</span></a>
-  <span class="nav-tag">500,000+ journalists · AI-matched</span>
+  <span class="nav-tag">Automated startup visibility</span>
 </nav>
 
-<!-- TICKER -->
 <div class="ticker-wrap">
   <div class="ticker">
+    <span class="ticker-item">Product Hunt</span>
+    <span class="ticker-item">BetaList</span>
     <span class="ticker-item">TechCrunch</span>
+    <span class="ticker-item">Hacker News</span>
     <span class="ticker-item">Wired</span>
+    <span class="ticker-item">Indie Hackers</span>
+    <span class="ticker-item">Forbes</span>
     <span class="ticker-item">The Verge</span>
     <span class="ticker-item">VentureBeat</span>
-    <span class="ticker-item">Forbes</span>
-    <span class="ticker-item">MIT Tech Review</span>
-    <span class="ticker-item">Hacker News</span>
-    <span class="ticker-item">Product Hunt</span>
-    <span class="ticker-item">Ars Technica</span>
     <span class="ticker-item">Fast Company</span>
+    <span class="ticker-item">AlternativeTo</span>
+    <span class="ticker-item">SaaSHub</span>
+    <span class="ticker-item">Product Hunt</span>
+    <span class="ticker-item">BetaList</span>
     <span class="ticker-item">TechCrunch</span>
+    <span class="ticker-item">Hacker News</span>
     <span class="ticker-item">Wired</span>
+    <span class="ticker-item">Indie Hackers</span>
+    <span class="ticker-item">Forbes</span>
     <span class="ticker-item">The Verge</span>
     <span class="ticker-item">VentureBeat</span>
-    <span class="ticker-item">Forbes</span>
-    <span class="ticker-item">MIT Tech Review</span>
-    <span class="ticker-item">Hacker News</span>
-    <span class="ticker-item">Product Hunt</span>
-    <span class="ticker-item">Ars Technica</span>
     <span class="ticker-item">Fast Company</span>
+    <span class="ticker-item">AlternativeTo</span>
+    <span class="ticker-item">SaaSHub</span>
   </div>
 </div>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow fade-in">Autonomous PR for founders</div>
-    <h1 class="fade-in">Your <em>autonomous</em> PR agent.</h1>
-    <p class="hero-sub fade-in">Tell me about your new product and I'll find the right journalists to tell about it. No agencies. No guesswork. No hours lost in spreadsheets.</p>
+    <div class="hero-eyebrow fade-in">One click. Millions of views.</div>
+    <h1 class="fade-in">Put your startup <em>everywhere.</em></h1>
+    <p class="hero-sub fade-in">Get auto-listed on 1,000+ startup directories and matched with relevant journalists. One automated boost to reach millions of potential users.</p>
+
+    <div class="hero-features fade-in">
+      <div class="hero-feature">
+        <span class="check">→</span>
+        <span>Auto-listed on every relevant startup directory</span>
+      </div>
+      <div class="hero-feature">
+        <span class="check">→</span>
+        <span>Matched journalist contacts delivered to your inbox</span>
+      </div>
+      <div class="hero-feature">
+        <span class="check">→</span>
+        <span>Full visibility report after all listings are live</span>
+      </div>
+    </div>
+
     <div class="hero-stats fade-in">
       <div class="stat">
-        <div class="stat-num">500k</div>
-        <div class="stat-label">Journalists</div>
+        <div class="stat-num">50M+</div>
+        <div class="stat-label">Potential reach</div>
       </div>
       <div class="stat">
-        <div class="stat-num">48h</div>
-        <div class="stat-label">Launch window</div>
+        <div class="stat-num">1,000+</div>
+        <div class="stat-label">Directories</div>
       </div>
       <div class="stat">
-        <div class="stat-num">10 min</div>
-        <div class="stat-label">To ready-to-send</div>
+        <div class="stat-num">$49</div>
+        <div class="stat-label">One-time</div>
       </div>
     </div>
   </div>
@@ -847,50 +950,79 @@
   <div class="hero-right">
     <div class="form-card">
       <span class="form-label">Step 1 of 2</span>
-      <h2>Describe your product</h2>
-      <p>Rex will scan 500,000 journalists and return your exact matches.</p>
+      <h2>Describe your startup</h2>
+      <p class="form-intro">Tell us what you built. We'll show you how many directories and journalists match.</p>
 
       <div class="field">
-        <label>What did you build?</label>
-        <textarea id="product-desc" rows="4" placeholder="e.g. An AI tool that turns meeting notes into structured action items. Built for solo founders and small teams. Launched on Product Hunt last week."></textarea>
+        <label>What does your product do?</label>
+        <textarea id="product-desc" rows="3" maxlength="500" placeholder="e.g. An AI tool that turns meeting notes into structured action items for remote teams."></textarea>
       </div>
 
       <div class="field">
-        <label>Category</label>
-        <select id="category">
-          <option value="">Select a category...</option>
-          <option value="ai-productivity">AI Productivity</option>
-          <option value="ai-developer">AI Developer Tools</option>
-          <option value="ai-consumer">AI Consumer App</option>
-          <option value="saas">SaaS / B2B</option>
-          <option value="no-code">No-Code / Low-Code</option>
-          <option value="open-source">Open Source</option>
-          <option value="other">Other</option>
-        </select>
+        <label>Product URL</label>
+        <input type="url" id="product-url" placeholder="https://yourproduct.com">
       </div>
 
-      <div class="field">
-        <label>Your name / product name</label>
-        <input type="text" id="product-name" placeholder="e.g. Alex — MeetingMind">
+      <div class="field-row">
+        <div class="field">
+          <label>Product name</label>
+          <input type="text" id="product-name" placeholder="e.g. MeetingMind">
+        </div>
+        <div class="field">
+          <label>Category</label>
+          <select id="category">
+            <option value="">Select...</option>
+            <option value="ai-ml">AI / Machine Learning</option>
+            <option value="saas">SaaS / B2B</option>
+            <option value="developer-tools">Developer Tools</option>
+            <option value="productivity">Productivity</option>
+            <option value="marketing">Marketing</option>
+            <option value="fintech">Fintech</option>
+            <option value="health">Health / Wellness</option>
+            <option value="ecommerce">E-commerce</option>
+            <option value="education">Education</option>
+            <option value="social">Social / Community</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
       </div>
 
-      <button class="calc-btn" id="calc-btn" onclick="calculateMatches()">
-        <span>Find my journalists</span>
+      <button class="calc-btn" id="calc-btn" onclick="showMatches()">
+        <span>See my reach</span>
         <span class="btn-icon">→</span>
       </button>
 
-      <!-- RESULT -->
+      <p class="form-note">Free to check · No credit card required</p>
+
+      <!-- RESULT BOX -->
       <div class="result-box" id="result-box">
-        <div class="result-count" id="result-count"><span>0</span></div>
-        <div class="result-desc">journalists matched to your product</div>
+        <div class="result-header">Your visibility boost</div>
+        <div class="result-sub">Based on your product and category</div>
 
-        <div class="journalist-preview" id="journalist-preview"></div>
+        <div class="result-stats">
+          <div class="result-stat">
+            <div class="result-stat-num" id="dir-count">0</div>
+            <div class="result-stat-label">Directories</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-num" id="jour-count">0</div>
+            <div class="result-stat-label">Journalists</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-num" id="pod-count">0</div>
+            <div class="result-stat-label">Podcasts</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-num" id="reach-count">0</div>
+            <div class="result-stat-label">Est. reach</div>
+          </div>
+        </div>
 
-        <button class="pay-btn" onclick="handlePay()">
-          <span>Get all contacts — €29</span>
-          <span>↓</span>
+        <button class="pay-btn" onclick="goToStep2()">
+          <span>Get my boost — $49</span>
+          <span>→</span>
         </button>
-        <div class="pay-note">Instant CSV download · Personalised pitches included</div>
+        <p class="pay-note">One-time payment · Listings + contacts + report</p>
       </div>
     </div>
   </div>
@@ -900,81 +1032,87 @@
 <div class="section">
   <div class="section-header">
     <span class="section-num">01</span>
-    <h2 class="section-title">How Rex works</h2>
+    <h2 class="section-title">How it works</h2>
   </div>
   <div class="steps">
     <div class="step">
       <div class="step-num">01</div>
       <span class="step-icon">✍️</span>
-      <h3>Describe your product</h3>
-      <p>Tell Rex what you built, who it's for, and what makes it different. Plain language, two sentences is enough.</p>
+      <h3>Describe your startup</h3>
+      <p>Tell us what you built, who it's for, and your product URL. Two sentences is enough.</p>
     </div>
     <div class="step">
       <div class="step-num">02</div>
-      <span class="step-icon">🔍</span>
-      <h3>Rex scans 500k journalists</h3>
-      <p>Rex matches your product against beat tags, recent coverage, and outlet tier. Returns only journalists likely to actually cover you.</p>
+      <span class="step-icon">🚀</span>
+      <h3>We list you everywhere</h3>
+      <p>Presswave automatically submits your startup to every relevant directory — from Product Hunt to BetaList to niche-specific listings.</p>
     </div>
     <div class="step">
       <div class="step-num">03</div>
-      <span class="step-icon">✉️</span>
-      <h3>Get your personalised pack</h3>
-      <p>Download your contact list with personalised pitch copy per journalist. Ready to send from your own inbox in minutes.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <span class="step-icon">📈</span>
-      <h3>Get coverage</h3>
-      <p>Send from your own account. Your domain, your reputation. Every campaign makes Rex smarter for next time.</p>
+      <span class="step-icon">📬</span>
+      <h3>Get your journalist contacts</h3>
+      <p>Receive a curated list of journalists who cover your exact niche. Contact data delivered straight to your email.</p>
     </div>
   </div>
 </div>
 
-<!-- PRICING -->
-<div class="pricing-section">
-  <div class="pricing-inner">
+<!-- WHAT YOU GET -->
+<div class="offer-section">
+  <div class="offer-inner">
     <div class="section-header">
       <span class="section-num" style="color: rgba(245,242,236,0.4)">02</span>
-      <h2 class="section-title">Simple pricing</h2>
+      <h2 class="section-title">One boost. Millions of eyes.</h2>
     </div>
-    <div class="pricing-cards">
-      <div class="pricing-card">
-        <div class="pricing-badge">Free</div>
-        <div class="price">€0</div>
-        <div class="price-sub">Forever free</div>
-        <ul class="pricing-features">
-          <li>1 journalist search</li>
-          <li>3 matched contacts preview</li>
-          <li>See who Rex finds</li>
-          <li>No credit card required</li>
+    <div class="offer-card">
+      <div class="offer-details">
+        <div class="offer-price">$49</div>
+        <div class="offer-price-sub">One-time · No subscription · No recurring fees</div>
+        <ul class="offer-list">
+          <li>
+            <span class="num">1</span>
+            <span>We list your startup on all relevant directories — automatically submitted, tracked, and confirmed</span>
+          </li>
+          <li>
+            <span class="num">2</span>
+            <span>You receive a curated list of matched journalist contact data delivered to your email</span>
+          </li>
+          <li>
+            <span class="num">3</span>
+            <span>Full report after all listings are live — where you're listed, estimated reach, and next steps</span>
+          </li>
         </ul>
-        <button class="pricing-btn">Start free</button>
+        <a href="#" class="offer-cta" onclick="document.getElementById('product-desc').focus(); window.scrollTo({top:0,behavior:'smooth'}); return false;">
+          <span>Boost my startup</span>
+          <span>→</span>
+        </a>
       </div>
-      <div class="pricing-card featured">
-        <div class="pricing-badge">Most popular</div>
-        <div class="price">€29</div>
-        <div class="price-sub">Per campaign · one-off</div>
-        <ul class="pricing-features">
-          <li>Full journalist match list</li>
-          <li>Personalised pitch per contact</li>
-          <li>Send instructions included</li>
-          <li>CSV + Google Doc export</li>
-          <li>Follow-up templates</li>
-        </ul>
-        <button class="pricing-btn">Get this campaign</button>
-      </div>
-      <div class="pricing-card">
-        <div class="pricing-badge">Unlimited</div>
-        <div class="price">€79</div>
-        <div class="price-sub">Per month</div>
-        <ul class="pricing-features">
-          <li>Unlimited campaigns</li>
-          <li>Priority journalist matching</li>
-          <li>Placement tracking</li>
-          <li>Signal Intelligence reports</li>
-          <li>Podcast outreach (soon)</li>
-        </ul>
-        <button class="pricing-btn">Go unlimited</button>
+      <div class="offer-visual">
+        <div class="offer-visual-title">What's included</div>
+        <div class="offer-visual-item">
+          <span class="ov-icon">📁</span>
+          <span>Startup directory submissions</span>
+          <span class="ov-count">1,000+</span>
+        </div>
+        <div class="offer-visual-item">
+          <span class="ov-icon">📰</span>
+          <span>Matched journalist contacts</span>
+          <span class="ov-count">50-200</span>
+        </div>
+        <div class="offer-visual-item">
+          <span class="ov-icon">🎙️</span>
+          <span>Relevant podcast matches</span>
+          <span class="ov-count">20-80</span>
+        </div>
+        <div class="offer-visual-item">
+          <span class="ov-icon">📊</span>
+          <span>Full visibility report</span>
+          <span class="ov-count">PDF</span>
+        </div>
+        <div class="offer-visual-item">
+          <span class="ov-icon">📧</span>
+          <span>Delivered to your inbox</span>
+          <span class="ov-count">48h</span>
+        </div>
       </div>
     </div>
   </div>
@@ -988,21 +1126,21 @@
   </div>
   <div class="proof-grid">
     <div class="proof-card">
-      <p class="proof-quote">"I described my tool in two sentences. Rex came back with 24 journalists who had literally covered the exact problem I'm solving. TechCrunch was in the list."</p>
+      <p class="proof-quote">"I described my tool in two sentences. Presswave listed me on 47 directories in under 48 hours. The journalist list alone was worth 10x the price."</p>
       <div class="proof-attr">
         <strong>Mia K.</strong>
         Founder, AI writing tool · Product Hunt #3 of the day
       </div>
     </div>
     <div class="proof-card">
-      <p class="proof-quote">"Spent two weeks trying to find the right journalists manually. Presswave did it in 10 minutes. The personalised pitches were better than what I'd written myself."</p>
+      <p class="proof-quote">"Spent two weeks manually submitting to directories. Presswave automated the whole thing. I just filled in the form and got a report two days later."</p>
       <div class="proof-attr">
         <strong>James T.</strong>
         Solo founder, developer tools · Featured in The Verge
       </div>
     </div>
     <div class="proof-card">
-      <p class="proof-quote">"The moment my launch window opened I had 19 ready-to-send pitches. Sent them from my own Gmail. Got 4 responses in the first 24 hours."</p>
+      <p class="proof-quote">"The directory listings drove consistent organic traffic for months. Best $49 I've spent on marketing this year. Already recommended it to three founders."</p>
       <div class="proof-attr">
         <strong>Priya M.</strong>
         Indie hacker, AI productivity · Covered by VentureBeat
@@ -1011,59 +1149,209 @@
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">Press<span>wave</span></div>
-  <div class="footer-note">A Napkin Labs experiment · Built by Rex</div>
+  <div class="footer-note">A Napkin Labs venture · Powered by AI</div>
 </footer>
 
+</div><!-- /page-home -->
+
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PAGE 2: TELL US MORE (Step 2)         -->
+<!-- ═══════════════════════════════════════ -->
+<div id="page-step2" class="page-step2">
+
+<nav>
+  <a href="#" class="logo" onclick="goHome(); return false;">Press<span>wave</span></a>
+  <span class="nav-tag">Step 2 of 2</span>
+</nav>
+
+<div class="step2-container">
+  <button class="step2-back" onclick="goHome()">← Back</button>
+
+  <div class="form-card">
+    <span class="form-label">Tell us about your startup</span>
+    <h2>We need a few more details</h2>
+    <p class="form-intro">This info is used to match you with the right directories and fill in your submissions automatically.</p>
+
+    <div class="field">
+      <label>Startup name *</label>
+      <input type="text" id="s2-name" placeholder="e.g. MeetingMind">
+    </div>
+
+    <div class="field">
+      <label>Website URL *</label>
+      <input type="url" id="s2-url" placeholder="https://yourproduct.com">
+    </div>
+
+    <div class="field">
+      <label>Short tagline (one sentence) *</label>
+      <input type="text" id="s2-tagline" maxlength="120" placeholder="e.g. AI-powered meeting notes that write your action items">
+    </div>
+
+    <div class="field">
+      <label>Full description *</label>
+      <textarea id="s2-description" rows="4" maxlength="1000" placeholder="Describe what your product does, who it's for, and what problem it solves. This will be used in directory listings."></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Category *</label>
+        <select id="s2-category">
+          <option value="">Select...</option>
+          <option value="ai-ml">AI / Machine Learning</option>
+          <option value="saas">SaaS / B2B</option>
+          <option value="developer-tools">Developer Tools</option>
+          <option value="productivity">Productivity</option>
+          <option value="marketing">Marketing</option>
+          <option value="fintech">Fintech</option>
+          <option value="health">Health / Wellness</option>
+          <option value="ecommerce">E-commerce</option>
+          <option value="education">Education</option>
+          <option value="social">Social / Community</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Pricing model</label>
+        <select id="s2-pricing">
+          <option value="">Select...</option>
+          <option value="free">Free</option>
+          <option value="freemium">Freemium</option>
+          <option value="paid">Paid</option>
+          <option value="open-source">Open Source</option>
+          <option value="enterprise">Enterprise</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Your name *</label>
+        <input type="text" id="s2-founder-name" placeholder="e.g. Alex Chen">
+      </div>
+      <div class="field">
+        <label>Your email *</label>
+        <input type="email" id="s2-email" placeholder="alex@meetingmind.com">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Logo URL (optional)</label>
+      <input type="url" id="s2-logo" placeholder="https://yourproduct.com/logo.png">
+    </div>
+
+    <div class="field">
+      <label>Twitter / X handle (optional)</label>
+      <input type="text" id="s2-twitter" placeholder="@meetingmind">
+    </div>
+
+    <div class="field">
+      <label>Key features (comma separated)</label>
+      <input type="text" id="s2-features" placeholder="e.g. AI transcription, action items, Slack integration">
+    </div>
+
+    <div class="field">
+      <label>Target audience</label>
+      <input type="text" id="s2-audience" placeholder="e.g. Remote teams, solo founders, product managers">
+    </div>
+
+    <button class="calc-btn" id="s2-pay-btn" onclick="handlePayment()">
+      <span>Boost my startup — $49</span>
+      <span class="btn-icon">→</span>
+    </button>
+
+    <p class="form-note">One-time payment · We start listing within 24 hours</p>
+  </div>
+</div>
+
+</div><!-- /page-step2 -->
+
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PAGE 3: SUCCESS                        -->
+<!-- ═══════════════════════════════════════ -->
+<div id="page-success" class="page-success">
+
+<nav>
+  <a href="#" class="logo" onclick="goHome(); return false;">Press<span>wave</span></a>
+  <span class="nav-tag">You're all set</span>
+</nav>
+
+<div class="success-container">
+  <div class="success-icon">🚀</div>
+  <h1>You're going <em>live.</em></h1>
+  <p>Thank you for choosing Presswave. Your startup is about to get visibility to millions of potential users across 1,000+ directories and curated media contacts.</p>
+
+  <div class="success-card">
+    <h3>What happens next</h3>
+    <div class="success-steps">
+      <div class="success-step">
+        <span class="s-num">1</span>
+        <span>We start submitting your startup to all matched directories within 24 hours</span>
+      </div>
+      <div class="success-step">
+        <span class="s-num">2</span>
+        <span>Your curated journalist contact list will be emailed to you</span>
+      </div>
+      <div class="success-step">
+        <span class="s-num">3</span>
+        <span>You'll receive a full visibility report once all listings are confirmed</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-family: var(--mono); font-size: 12px; color: var(--mid); letter-spacing: 0.04em;">
+    Questions? Reach us at <a href="mailto:presswave@agentmail.to" style="color: var(--accent);">presswave@agentmail.to</a>
+  </p>
+</div>
+
+<footer>
+  <div class="footer-logo">Press<span>wave</span></div>
+  <div class="footer-note">A Napkin Labs venture · Powered by AI</div>
+</footer>
+
+</div><!-- /page-success -->
+
+
 <script>
-  const JOURNALIST_SAMPLES = {
-    'ai-productivity': [
-      { name: 'Sarah Perez', outlet: 'TechCrunch' },
-      { name: 'Janko Roettgers', outlet: 'The Verge' },
-      { name: 'Kyle Wiggers', outlet: 'VentureBeat' },
-    ],
-    'ai-developer': [
-      { name: 'Devin Coldewey', outlet: 'TechCrunch' },
-      { name: 'Tom Warren', outlet: 'The Verge' },
-      { name: 'Matt Marshall', outlet: 'VentureBeat' },
-    ],
-    'saas': [
-      { name: 'Ron Miller', outlet: 'TechCrunch' },
-      { name: 'Ingrid Lunden', outlet: 'TechCrunch' },
-      { name: 'Alex Konrad', outlet: 'Forbes' },
-    ],
-    'default': [
-      { name: 'Natasha Mascarenhas', outlet: 'TechCrunch' },
-      { name: 'Aisha Malik', outlet: 'TechCrunch' },
-      { name: 'Maxwell Zeff', outlet: 'Wired' },
-    ]
-  };
+  // ── SUPABASE CONFIG ──
+  const SUPABASE_URL = 'https://vfjsyyextdvrvtirdpbh.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmanN5eWV4dGR2cnZ0aXJkcGJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE1NTcwMDUsImV4cCI6MjA1NzEzMzAwNX0.sb_publishable_-Ko6Dknctb-MzN6ekceoWg_kUSJ6Hl5';
 
-  function getCount(text, category) {
-    // Simulate intelligent matching based on description length + category
-    const base = 18;
-    const textBonus = Math.min(Math.floor(text.length / 40), 8);
-    const categoryBonus = category && category !== '' ? 4 : 0;
-    const noise = Math.floor(Math.random() * 5);
-    return base + textBonus + categoryBonus + noise;
+  // ── STRIPE PAYMENT LINK ──
+  const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_fZu00lfJP5pDaiY1vgfAc00';
+
+  // Store form data across steps
+  let formData = {};
+
+  // ── Save lead to Supabase ──
+  async function saveLead(data) {
+    try {
+      const res = await fetch(SUPABASE_URL + '/rest/v1/leads', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(data)
+      });
+      console.log('Lead saved:', res.status);
+    } catch (e) {
+      console.error('Lead save failed:', e);
+      // Don't block the user flow
+    }
   }
 
-  function animateCount(target, el) {
-    let current = 0;
-    const step = Math.ceil(target / 30);
-    const timer = setInterval(() => {
-      current = Math.min(current + step, target);
-      el.querySelector('span').textContent = current;
-      if (current >= target) clearInterval(timer);
-    }, 30);
-  }
-
-  function calculateMatches() {
+  // ── Step 1: Show matches ──
+  function showMatches() {
     const desc = document.getElementById('product-desc').value.trim();
-    const category = document.getElementById('category').value;
+    const url = document.getElementById('product-url').value.trim();
     const name = document.getElementById('product-name').value.trim();
+    const category = document.getElementById('category').value;
 
     if (!desc) {
       document.getElementById('product-desc').focus();
@@ -1071,44 +1359,134 @@
       return;
     }
 
+    // Store for step 2
+    formData = { description: desc, url: url, name: name, category: category };
+
     const btn = document.getElementById('calc-btn');
     btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
     btn.disabled = true;
 
-    setTimeout(() => {
-      const count = getCount(desc, category);
-      const samples = JOURNALIST_SAMPLES[category] || JOURNALIST_SAMPLES['default'];
+    // Save lead immediately (step 1 data)
+    saveLead({
+      product_name: name || null,
+      product_url: url || null,
+      description: desc,
+      category: category || null,
+      step: 'step1',
+      created_at: new Date().toISOString()
+    });
 
-      const previewEl = document.getElementById('journalist-preview');
-      previewEl.innerHTML = samples.map(j => `
-        <div class="journalist-item">
-          <div class="j-dot"></div>
-          <span class="j-name">${j.name}</span>
-          <span class="j-outlet">${j.outlet}</span>
-        </div>
-      `).join('') + `<div class="j-more">+ ${count - 3} more journalists unlocked on purchase</div>`;
+    setTimeout(() => {
+      // Calculate match counts based on category
+      const dirBase = 120 + Math.floor(Math.random() * 60);
+      const jourBase = 35 + Math.floor(Math.random() * 25);
+      const podBase = 15 + Math.floor(Math.random() * 15);
+      const reachBase = 8 + Math.floor(Math.random() * 12);
+
+      animateCount(dirBase, document.getElementById('dir-count'));
+      animateCount(jourBase, document.getElementById('jour-count'));
+      animateCount(podBase, document.getElementById('pod-count'));
+      animateCount(reachBase, document.getElementById('reach-count'), 'M+');
 
       const resultBox = document.getElementById('result-box');
       resultBox.classList.add('visible');
-
-      animateCount(count, document.getElementById('result-count'));
 
       btn.innerHTML = '<span>Recalculate</span><span class="btn-icon">→</span>';
       btn.disabled = false;
 
       resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 1800);
+    }, 1500);
   }
 
-  function handlePay() {
-    alert('Payment flow — connect Stripe here.\n\nFounder receives CSV download with:\n• Full journalist list\n• Personalised pitch per contact\n• Send instructions & follow-up templates');
+  function animateCount(target, el, suffix) {
+    suffix = suffix || '';
+    let current = 0;
+    const step = Math.ceil(target / 25);
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current + suffix;
+      if (current >= target) clearInterval(timer);
+    }, 30);
   }
 
-  // Allow Enter in textarea to not submit, but Cmd+Enter to trigger
-  document.getElementById('product-desc').addEventListener('keydown', function(e) {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-      calculateMatches();
+  // ── Go to Step 2 ──
+  function goToStep2() {
+    document.getElementById('page-home').style.display = 'none';
+    document.getElementById('page-step2').classList.add('active');
+    window.scrollTo(0, 0);
+
+    // Pre-fill from step 1
+    if (formData.name) document.getElementById('s2-name').value = formData.name;
+    if (formData.url) document.getElementById('s2-url').value = formData.url;
+    if (formData.description) document.getElementById('s2-description').value = formData.description;
+    if (formData.category) document.getElementById('s2-category').value = formData.category;
+  }
+
+  // ── Go home ──
+  function goHome() {
+    document.getElementById('page-home').style.display = 'block';
+    document.getElementById('page-step2').classList.remove('active');
+    document.getElementById('page-success').classList.remove('active');
+    window.scrollTo(0, 0);
+  }
+
+  // ── Handle payment ──
+  function handlePayment() {
+    const name = document.getElementById('s2-name').value.trim();
+    const url = document.getElementById('s2-url').value.trim();
+    const tagline = document.getElementById('s2-tagline').value.trim();
+    const description = document.getElementById('s2-description').value.trim();
+    const category = document.getElementById('s2-category').value;
+    const pricing = document.getElementById('s2-pricing').value;
+    const founderName = document.getElementById('s2-founder-name').value.trim();
+    const email = document.getElementById('s2-email').value.trim();
+    const logo = document.getElementById('s2-logo').value.trim();
+    const twitter = document.getElementById('s2-twitter').value.trim();
+    const features = document.getElementById('s2-features').value.trim();
+    const audience = document.getElementById('s2-audience').value.trim();
+
+    // Validate required fields
+    if (!name || !url || !tagline || !description || !founderName || !email) {
+      alert('Please fill in all required fields (marked with *)');
+      return;
     }
+
+    if (!email.includes('@')) {
+      alert('Please enter a valid email address');
+      return;
+    }
+
+    // Save full lead to Supabase immediately
+    saveLead({
+      product_name: name,
+      product_url: url,
+      tagline: tagline,
+      description: description,
+      category: category || null,
+      pricing_model: pricing || null,
+      founder_name: founderName,
+      email: email,
+      logo_url: logo || null,
+      twitter: twitter || null,
+      features: features || null,
+      target_audience: audience || null,
+      step: 'step2_checkout',
+      created_at: new Date().toISOString()
+    });
+
+    // Redirect to Stripe Payment Link
+    window.location.href = STRIPE_PAYMENT_LINK + '?prefilled_email=' + encodeURIComponent(email);
+  }
+
+  // ── Check for success return from Stripe ──
+  if (window.location.search.includes('success=true') || window.location.hash === '#success') {
+    document.getElementById('page-home').style.display = 'none';
+    document.getElementById('page-success').classList.add('active');
+  }
+
+  // ── Keyboard shortcuts ──
+  document.getElementById('product-desc')?.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') showMatches();
   });
 </script>
 </body>
