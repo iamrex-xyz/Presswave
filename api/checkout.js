@@ -1,15 +1,14 @@
 // Presswave Checkout API — Creates Stripe Checkout Session with product metadata
 // POST { package: "launch"|"growth", email, name, productName, productUrl, productDescription, category }
 
-const Stripe = require('stripe');
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+import Stripe from 'stripe';
 
 const PRICES = {
   launch: process.env.STRIPE_PRICE_LAUNCH,
   growth: process.env.STRIPE_PRICE_GROWTH,
 };
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -17,6 +16,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const { package: pkg, email, name, productName, productUrl, productDescription, category } = req.body || {};
 
     if (!pkg || !PRICES[pkg]) return res.status(400).json({ error: 'Invalid package. Use "launch" or "growth".' });
