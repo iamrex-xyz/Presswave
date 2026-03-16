@@ -3,7 +3,7 @@
 // 2. Generates CSV download token
 // 3. Sends confirmation email via AgentMail
 
-import crypto from 'crypto';
+const crypto = require('crypto');
 
 const SUPABASE_URL = 'https://vfjsyyextdvrvtirdpbh.supabase.co';
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
@@ -171,11 +171,7 @@ async function storeOrder(order, serviceKey) {
   return r.ok ? await r.json() : null;
 }
 
-export const config = {
-  api: { bodyParser: false },
-};
-
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
 
   // Read raw body for signature verification
@@ -250,3 +246,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ received: true, error: e.message });
   }
 }
+
+module.exports = handler;
+module.exports.config = { api: { bodyParser: false } };
