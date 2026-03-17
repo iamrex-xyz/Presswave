@@ -136,15 +136,15 @@ Questions? Just reply to this email.
 
 — The Presswave Team`;
 
-  const r = await fetch('https://api.agentmail.to/v0/emails', {
+  const inboxId = encodeURIComponent(fromAddr);
+  const r = await fetch(`https://api.agentmail.to/v0/inboxes/${inboxId}/messages/send`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      to: [{ address: email, name: name || undefined }],
-      from: { address: fromAddr, name: 'Presswave' },
+      to: email,
       subject,
       html,
       text,
