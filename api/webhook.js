@@ -82,7 +82,7 @@ async function queryMatchedContacts(category, description, serviceKey) {
 // Send confirmation email via AgentMail
 async function sendConfirmationEmail({ email, name, productName, csvUrl, package: pkg }) {
   const apiKey = process.env.AGENTMAIL_API_KEY;
-  const fromAddr = process.env.AGENTMAIL_INBOX || 'presswave@agentmail.to';
+  const fromAddr = 'rex@presswave.xyz';
 
   const subject = `🚀 Your Presswave ${pkg === 'growth' ? 'Growth' : 'Launch'} package is live — here's everything you need`;
   
