@@ -5,7 +5,6 @@ import Stripe from 'stripe';
 
 const PRICES = {
   launch: process.env.STRIPE_PRICE_LAUNCH,
-  growth: process.env.STRIPE_PRICE_GROWTH,
 };
 
 export default async function handler(req, res) {
@@ -19,11 +18,11 @@ export default async function handler(req, res) {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const { package: pkg, email, name, productName, productUrl, productDescription, category } = req.body || {};
 
-    if (!pkg || !PRICES[pkg]) return res.status(400).json({ error: 'Invalid package. Use "launch" or "growth".' });
+    if (!pkg || !PRICES[pkg]) return res.status(400).json({ error: 'Invalid package.' });
     if (!email) return res.status(400).json({ error: 'Email required' });
     if (!productName) return res.status(400).json({ error: 'Product name required' });
 
-    const mode = pkg === 'growth' ? 'subscription' : 'payment';
+    const mode = 'payment';
 
     const session = await stripe.checkout.sessions.create({
       mode,

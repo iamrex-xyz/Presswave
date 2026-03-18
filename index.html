@@ -1686,7 +1686,7 @@
   // DO NOT change these values. Anon key starts with sb_publishable_, NOT a JWT.
   const SUPABASE_URL = 'https://vfjsyyextdvrvtirdpbh.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_-Ko6Dknctb-MzN6ekceoWg_kUSJ6Hl5';
-  const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_fZu00lfJP5pDaiY1vgfAc00';
+  // Stripe checkout via /api/checkout (live mode)
 
   let formData = {};
 
@@ -1910,7 +1910,7 @@
   }
 
   // ── Payment ──
-  function handlePayment() {
+  async function handlePayment() {
     const name = document.getElementById('s2-name').value.trim();
     const url = document.getElementById('s2-url').value.trim();
     const tagline = document.getElementById('s2-tagline').value.trim();
@@ -1941,7 +1941,32 @@
       created_at: new Date().toISOString()
     });
 
-    window.location.href = STRIPE_PAYMENT_LINK + '?prefilled_email=' + encodeURIComponent(email);
+    // Call checkout API to create Stripe session
+    try {
+      const checkoutRes = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          package: 'launch',
+          email,
+          name: founderName,
+          productName: name,
+          productUrl: url,
+          productDescription: description,
+          category: category || ''
+        })
+      });
+      const checkoutData = await checkoutRes.json();
+      if (checkoutData.url) {
+        window.location.href = checkoutData.url;
+      } else {
+        alert('Something went wrong creating your checkout. Please try again.');
+        console.error('Checkout error:', checkoutData);
+      }
+    } catch (err) {
+      alert('Connection error. Please try again.');
+      console.error('Checkout fetch error:', err);
+    }
   }
 
   // ── Success page check ──
