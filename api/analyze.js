@@ -186,53 +186,33 @@ export default async function handler(req, res) {
     // 4. Combine all topics — category first (most reliable), then URL, then description
     const allTopics = [...new Set([...catTopics, ...urlKeywords, ...descKeywords])].slice(0, 20);
     
-    // 5. Query matched contacts + fallbacks + counts in parallel
+    // 5. Query matched directories + fallbacks + count (directory-only proposition)
     const PER_TYPE = 12;
-    const [
-      matchedDirs, matchedJours, matchedPods, matchedNews,
-      fallDirs, fallJours, fallPods, fallNews,
-      countDirs, countJours, countPods, countNews
-    ] = await Promise.all([
+    const [matchedDirs, fallDirs, countDirs] = await Promise.all([
       queryByTopics(allTopics, 'directory', PER_TYPE),
-      queryByTopics(allTopics, 'journalist', PER_TYPE),
-      queryByTopics(allTopics, 'podcast', PER_TYPE),
-      queryByTopics(allTopics, 'newsletter', PER_TYPE),
       queryTop('directory', PER_TYPE),
-      queryTop('journalist', PER_TYPE),
-      queryTop('podcast', PER_TYPE),
-      queryTop('newsletter', PER_TYPE),
       countType('directory'),
-      countType('journalist'),
-      countType('podcast'),
-      countType('newsletter'),
     ]);
     
     // 6. Merge: matched first, backfill with fallback, dedup
     const dirs = dedup(matchedDirs, fallDirs, PER_TYPE);
-    const jours = dedup(matchedJours, fallJours, PER_TYPE);
-    const pods = dedup(matchedPods, fallPods, PER_TYPE);
-    const news = dedup(matchedNews, fallNews, PER_TYPE);
     
-    // 7. Calculate estimated reach
-    const reach = Math.round(
-      (countDirs * 5000 + countJours * 50000 + countPods * 10000) / 1e6
-    );
+    // 7. Cap displayed count at 300 (our actual submission capacity)
+    // Show real count if under 300, cap at 300 if over
+    const displayDirs = Math.min(countDirs, 300);
+    
+    // Estimated reach based on directory traffic
+    const reach = Math.round(displayDirs * 15000 / 1e6);
     
     return res.status(200).json({
       keywords: allTopics,
       urlMeta,
       counts: {
-        directories: countDirs,
-        journalists: countJours,
-        podcasts: countPods,
-        newsletters: countNews,
-        reach,
+        directories: displayDirs,
+        reach: Math.max(reach, 4), // minimum 4M reach
       },
       contacts: {
         directories: dirs.map(c => ({ name: c.name, outlet: c.outlet, description: c.description, audience_size: c.audience_size, website: c.website, relevanceScore: c.relevanceScore })),
-        journalists: jours.map(c => ({ name: c.name, outlet: c.outlet, description: c.description, audience_size: c.audience_size, website: c.website, relevanceScore: c.relevanceScore })),
-        podcasts: pods.map(c => ({ name: c.name, outlet: c.outlet, description: c.description, audience_size: c.audience_size, website: c.website, relevanceScore: c.relevanceScore })),
-        newsletters: news.map(c => ({ name: c.name, outlet: c.outlet, description: c.description, audience_size: c.audience_size, website: c.website, relevanceScore: c.relevanceScore })),
       }
     });
   } catch (e) {
