@@ -8,7 +8,10 @@ const PRICES = {
 };
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin || '';
+  const allowed = ['https://presswave.xyz', 'https://www.presswave.xyz'];
+  if (allowed.includes(origin)) res.setHeader('Access-Control-Allow-Origin', origin);
+  else res.setHeader('Access-Control-Allow-Origin', 'https://presswave.xyz');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -44,6 +47,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ url: session.url, sessionId: session.id });
   } catch (e) {
     console.error('Checkout error:', e);
-    return res.status(500).json({ error: 'Failed to create checkout session', detail: e.message });
+    return res.status(500).json({ error: 'Failed to create checkout session' });
   }
 }

@@ -14,9 +14,19 @@ function verifyStripeSignature(payload, sig, secret) {
   const v1 = elements.find(e => e.startsWith('v1='))?.split('=')[1];
   if (!ts || !v1) return false;
 
+  // Reject timestamps older than 5 minutes (replay protection)
+  const now = Math.floor(Date.now() / 1000);
+  if (Math.abs(now - parseInt(ts, 10)) > 300) return false;
+
   const signedPayload = `${ts}.${payload}`;
   const expected = crypto.createHmac('sha256', secret).update(signedPayload).digest('hex');
-  return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(v1));
+
+  // timingSafeEqual requires equal-length buffers
+  const expectedBuf = Buffer.from(expected, 'utf8');
+  const actualBuf = Buffer.from(v1, 'utf8');
+  if (expectedBuf.length !== actualBuf.length) return false;
+
+  return crypto.timingSafeEqual(expectedBuf, actualBuf);
 }
 
 // Query matched journalists from Supabase
@@ -247,10 +257,22 @@ async function handler(req, res) {
 
   try {
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_JWT;
+
+    // Idempotency check — skip if already processed
+    const existingRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/presswave_orders?stripe_session_id=eq.${encodeURIComponent(session.id)}&select=id&limit=1`,
+      { headers: { 'apikey': serviceKey, 'Authorization': `Bearer ${serviceKey}` } }
+    );
+    const existing = existingRes.ok ? await existingRes.json() : [];
+    if (existing.length > 0) {
+      console.log(`Order already processed (idempotent skip): ${session.id}`);
+      return res.status(200).json({ received: true, duplicate: true });
+    }
+
     const csvToken = crypto.randomBytes(24).toString('hex');
 
-    // 1. Store order
-    await storeOrder({
+    // 1. Store order — fail webhook if this fails so Stripe retries
+    const stored = await storeOrder({
       stripe_session_id: session.id,
       customer_email: customerEmail,
       customer_name: meta.customer_name || null,
@@ -265,20 +287,29 @@ async function handler(req, res) {
       csv_token: csvToken,
     }, serviceKey);
 
-    // 2. Send confirmation email
-    await sendConfirmationEmail({
-      email: customerEmail,
-      name: meta.customer_name,
-      productName: meta.product_name || 'your product',
-      package: meta.package || 'launch',
-    });
+    if (!stored) {
+      console.error('Failed to store order:', session.id);
+      return res.status(500).json({ error: 'Order storage failed — Stripe will retry' });
+    }
+
+    // 2. Send confirmation email (best-effort — don't fail the webhook for email issues)
+    try {
+      await sendConfirmationEmail({
+        email: customerEmail,
+        name: meta.customer_name,
+        productName: meta.product_name || 'your product',
+        package: meta.package || 'launch',
+      });
+    } catch (emailErr) {
+      console.error('Email send failed (order still stored):', emailErr.message);
+    }
 
     console.log(`Order processed: ${session.id} → ${customerEmail} (${meta.package})`);
     return res.status(200).json({ received: true, orderId: session.id });
   } catch (e) {
     console.error('Webhook processing error:', e);
-    // Still return 200 to prevent Stripe retries for processing errors
-    return res.status(200).json({ received: true, error: e.message });
+    // Return 500 so Stripe retries (up to 3 days)
+    return res.status(500).json({ error: 'Processing failed — Stripe will retry' });
   }
 }
 

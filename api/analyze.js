@@ -55,8 +55,14 @@ function extractKeywords(text) {
 
 // Fetch and parse URL metadata
 async function fetchUrlMeta(url) {
-  if (!url || !url.startsWith('http')) return null;
+  if (!url || !url.match(/^https?:\/\/[a-zA-Z0-9]/)) return null;
   try {
+    // Block internal/private IPs (SSRF protection)
+    const urlObj = new URL(url);
+    const host = urlObj.hostname;
+    if (host === 'localhost' || host === '127.0.0.1' || host.startsWith('10.') ||
+        host.startsWith('192.168.') || host.startsWith('172.') || host === '169.254.169.254' ||
+        host.endsWith('.internal') || host.endsWith('.local')) return null;
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 6000);
     const res = await fetch(url, {
@@ -159,7 +165,10 @@ function dedup(primary, fallback, limit) {
 }
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin || '';
+  const allowed = ['https://presswave.xyz', 'https://www.presswave.xyz'];
+  if (allowed.includes(origin)) res.setHeader('Access-Control-Allow-Origin', origin);
+  else res.setHeader('Access-Control-Allow-Origin', 'https://presswave.xyz');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
