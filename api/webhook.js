@@ -1,7 +1,6 @@
 // Presswave Stripe Webhook — handles checkout.session.completed
-// 1. Stores order in Supabase
-// 2. Generates CSV download token
-// 3. Sends confirmation email via AgentMail
+// 1. Stores order in Supabase (presswave_orders)
+// 2. Sends confirmation email via AgentMail (rex@presswave.xyz)
 
 import crypto from 'crypto';
 
@@ -80,54 +79,32 @@ async function queryMatchedContacts(category, description, serviceKey) {
 }
 
 // Send confirmation email via AgentMail
-async function sendConfirmationEmail({ email, name, productName, csvUrl, package: pkg }) {
+async function sendConfirmationEmail({ email, name, productName, package: pkg }) {
   const apiKey = process.env.AGENTMAIL_API_KEY;
   const fromAddr = 'rex@presswave.xyz';
 
-  const subject = `🚀 Your Presswave ${pkg === 'growth' ? 'Growth' : 'Launch'} package is live — here's everything you need`;
+  const subject = `🚀 ${productName} is about to be everywhere — your Presswave order is confirmed`;
   
   const html = `
 <div style="font-family: Inter, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; color: #1f2937;">
   <div style="text-align: center; margin-bottom: 40px;">
     <h1 style="font-size: 32px; font-weight: 700; margin: 0; letter-spacing: -0.5px;">Presswave</h1>
-    <p style="color: #6b7280; margin-top: 4px; font-size: 14px;">From launch to coverage. Automatically.</p>
+    <p style="color: #6b7280; margin-top: 4px; font-size: 14px;">You built it. We put it everywhere.</p>
   </div>
   
   <p style="font-size: 18px; line-height: 1.6;">Hi ${name || 'there'} 👋</p>
   
-  <p style="font-size: 16px; line-height: 1.7;">You just made a smart move. Most founders launch into silence — you won't. Your <strong>${pkg === 'growth' ? 'Growth' : 'Launch'}</strong> package for <strong>${productName}</strong> is now active, and we're already working on getting you noticed.</p>
+  <p style="font-size: 16px; line-height: 1.7;">You just made a smart move. Most founders launch into silence — you won't. We're now submitting <strong>${productName}</strong> to <strong>300+ directories</strong>, so people keep finding you everywhere they look.</p>
 
-  <p style="font-size: 16px; line-height: 1.7;">Here's what's happening right now:</p>
+  <p style="font-size: 16px; line-height: 1.7;">Here's what's happening:</p>
   
   <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 28px 0;">
 
-  <h2 style="font-size: 20px; margin-top: 0;">📋 Your Presswave package</h2>
-  
-  <div style="background: #f0fdf4; border-left: 4px solid #22c55e; padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0;">
-    <p style="margin: 0 0 8px 0; font-weight: 700; font-size: 16px;">✅ 1. Your journalist contacts are ready</p>
-    <p style="margin: 0 0 12px 0; color: #374151; font-size: 15px; line-height: 1.6;">We've matched your product against our database of 13,000+ media contacts and compiled a personalized CSV with the journalists most relevant to your space — including their name, outlet, beat, and contact details.</p>
-    <p style="margin: 0;"><a href="${csvUrl}" style="display: inline-block; background: #111827; color: white; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px;">📥 Download your journalist CSV</a></p>
-  </div>
+  <h2 style="font-size: 20px; margin-top: 0;">📋 What you're getting</h2>
   
   <div style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0;">
-    <p style="margin: 0 0 8px 0; font-weight: 700; font-size: 16px;">⏳ 2. Directory submissions — in progress</p>
-    <p style="margin: 0; color: #374151; font-size: 15px; line-height: 1.6;">Our team is now manually submitting your product to <strong>300+ startup directories</strong> — from Product Hunt and BetaList to niche-specific listings in your category. You'll receive a tracking sheet once the first batch is live so you can see exactly where you've been listed.</p>
-  </div>
-
-  <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 28px 0;">
-
-  <h2 style="font-size: 20px;">💡 Tips to maximize your coverage</h2>
-  
-  <div style="margin: 16px 0;">
-    <p style="font-size: 15px; line-height: 1.7; margin: 0 0 16px 0;"><strong>🎯 Personalize your outreach.</strong> Don't blast the same email to every journalist. Open the CSV, pick 10-15 who cover your exact niche, and write a short, personal email to each. Mention a recent article they wrote. Journalists ignore templates — they respond to people who did their homework.</p>
-    
-    <p style="font-size: 15px; line-height: 1.7; margin: 0 0 16px 0;"><strong>⏰ Timing matters.</strong> The best days to pitch are Tuesday through Thursday, early morning (8-10 AM in the journalist's timezone). Avoid Mondays (inbox overload) and Fridays (weekend mode).</p>
-    
-    <p style="font-size: 15px; line-height: 1.7; margin: 0 0 16px 0;"><strong>📝 Keep it short.</strong> Your pitch email should be 3-5 sentences max. Lead with what makes your product different, not what it does. "We reduced X by 80%" beats "We built a platform that..." every time.</p>
-    
-    <p style="font-size: 15px; line-height: 1.7; margin: 0 0 16px 0;"><strong>🔄 Follow up once.</strong> If you don't hear back in 5-7 days, send exactly one follow-up. Keep it to 2 sentences. After that, move on — there are hundreds more contacts in your CSV.</p>
-    
-    <p style="font-size: 15px; line-height: 1.7; margin: 0;"><strong>📊 Track everything.</strong> Note which journalists open, reply, or publish. This data is gold for your next campaign — you'll know exactly who covers products like yours.</p>
+    <p style="margin: 0 0 8px 0; font-weight: 700; font-size: 16px;">🚀 300+ directory submissions — in progress</p>
+    <p style="margin: 0; color: #374151; font-size: 15px; line-height: 1.6;">Our team is now submitting your product to <strong>300+ directories</strong> — Product Hunt, BetaList, and every relevant listing in your niche. Each submission is done by hand with your product details filled in properly. You'll receive a full report once submissions are confirmed.</p>
   </div>
 
   <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 28px 0;">
@@ -136,83 +113,65 @@ async function sendConfirmationEmail({ email, name, productName, csvUrl, package
   
   <table style="width: 100%; font-size: 14px; border-collapse: collapse; margin: 16px 0;">
     <tr style="border-bottom: 1px solid #e5e7eb;">
-      <td style="padding: 10px 0; font-weight: 600; width: 40%;">Today</td>
-      <td style="padding: 10px 0; color: #374151;">CSV delivered ✅ — start your outreach</td>
+      <td style="padding: 10px 0; font-weight: 600; width: 40%;">Now</td>
+      <td style="padding: 10px 0; color: #374151;">We start submitting your startup ✅</td>
     </tr>
     <tr style="border-bottom: 1px solid #e5e7eb;">
-      <td style="padding: 10px 0; font-weight: 600;">Days 1-3</td>
-      <td style="padding: 10px 0; color: #374151;">First directory submissions go live</td>
+      <td style="padding: 10px 0; font-weight: 600;">Week 1</td>
+      <td style="padding: 10px 0; color: #374151;">First directory listings go live</td>
     </tr>
     <tr style="border-bottom: 1px solid #e5e7eb;">
-      <td style="padding: 10px 0; font-weight: 600;">Day 7</td>
-      <td style="padding: 10px 0; color: #374151;">Full tracking sheet with all submission statuses</td>
+      <td style="padding: 10px 0; font-weight: 600;">Week 2</td>
+      <td style="padding: 10px 0; color: #374151;">Full report — every confirmed listing with links</td>
     </tr>
     <tr>
-      <td style="padding: 10px 0; font-weight: 600;">Days 7-14</td>
-      <td style="padding: 10px 0; color: #374151;">Directory listings start appearing in search results 📈</td>
+      <td style="padding: 10px 0; font-weight: 600;">Ongoing</td>
+      <td style="padding: 10px 0; color: #374151;">People keep discovering you across 300+ sites 📈</td>
     </tr>
   </table>
 
   <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 28px 0;">
 
   <div style="background: #fefce8; border: 1px solid #fde68a; padding: 20px; border-radius: 8px; margin: 20px 0;">
-    <p style="margin: 0; font-size: 15px; line-height: 1.6;"><strong>Need help with your pitch?</strong> Just reply to this email with your product URL and a one-liner, and we'll give you feedback on your angle. Seriously — we want you to get covered.</p>
+    <p style="margin: 0; font-size: 15px; line-height: 1.6;"><strong>Questions?</strong> Just reply to this email. We're here to help.</p>
   </div>
 
-  <p style="font-size: 16px; line-height: 1.7; margin-top: 24px;">Let's get you the coverage you deserve. 🚀</p>
+  <p style="font-size: 16px; line-height: 1.7; margin-top: 24px;">You focus on building — we'll handle getting you found. 🚀</p>
   
-  <p style="font-size: 16px; line-height: 1.6; font-weight: 600;">— The Presswave Team</p>
+  <p style="font-size: 16px; line-height: 1.6; font-weight: 600;">— Rex from Presswave</p>
   
   <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 32px 0 16px 0;">
-  <p style="font-size: 12px; color: #9ca3af; text-align: center;">Presswave · <a href="https://presswave.xyz" style="color: #6b7280;">presswave.xyz</a> · From launch to coverage.</p>
-  <p style="font-size: 12px; color: #9ca3af; text-align: center;">Follow us on <a href="https://x.com/iamrex_xyz" style="color: #6b7280;">X @iamrex_xyz</a> for founder tips and PR insights.</p>
+  <p style="font-size: 12px; color: #9ca3af; text-align: center;">Presswave · <a href="https://presswave.xyz" style="color: #6b7280;">presswave.xyz</a> · You built it. We put it everywhere.</p>
+  <p style="font-size: 12px; color: #9ca3af; text-align: center;">Follow us on <a href="https://x.com/iamrex_xyz" style="color: #6b7280;">X @iamrex_xyz</a></p>
 </div>`;
 
   const text = `Hi ${name || 'there'} 👋
 
-You just made a smart move. Most founders launch into silence — you won't. Your ${pkg === 'growth' ? 'Growth' : 'Launch'} package for ${productName} is now active.
+You just made a smart move. Most founders launch into silence — you won't. We're now submitting ${productName} to 300+ directories, so people keep finding you everywhere they look.
 
 ━━━━━━━━━━━━━━━━━━━━
 
-📋 YOUR PRESSWAVE PACKAGE
+📋 WHAT YOU'RE GETTING
 
-✅ 1. Your journalist contacts are ready
-We matched your product against 13,000+ media contacts. Download your personalized CSV:
-${csvUrl}
-
-⏳ 2. Directory submissions — in progress
-Our team is submitting your product to 300+ startup directories. You'll get a tracking sheet once the first batch is live.
-
-━━━━━━━━━━━━━━━━━━━━
-
-💡 TIPS TO MAXIMIZE YOUR COVERAGE
-
-🎯 Personalize your outreach — Pick 10-15 journalists from the CSV who cover your exact niche. Mention a recent article they wrote. Journalists ignore templates.
-
-⏰ Timing matters — Pitch Tuesday-Thursday, 8-10 AM in their timezone. Avoid Mondays and Fridays.
-
-📝 Keep it short — 3-5 sentences max. Lead with what makes you different, not what you do. "We reduced X by 80%" beats "We built a platform that..."
-
-🔄 Follow up once — No reply in 5-7 days? Send one 2-sentence follow-up. Then move on.
-
-📊 Track everything — Note who opens, replies, or publishes. Gold for your next campaign.
+🚀 300+ directory submissions — in progress
+Our team is submitting your product to Product Hunt, BetaList, and every relevant listing in your niche. Each submission done by hand with your product details filled in properly.
 
 ━━━━━━━━━━━━━━━━━━━━
 
 🗓 WHAT TO EXPECT
 
-Today → CSV delivered ✅ Start your outreach
-Days 1-3 → First directory submissions go live
-Day 7 → Full tracking sheet with all statuses
-Days 7-14 → Listings appear in search results 📈
+Now → We start submitting your startup ✅
+Week 1 → First directory listings go live
+Week 2 → Full report — every confirmed listing with links
+Ongoing → People keep discovering you across 300+ sites 📈
 
 ━━━━━━━━━━━━━━━━━━━━
 
-Need help with your pitch? Reply to this email with your URL and one-liner — we'll give you feedback on your angle.
+Questions? Just reply to this email. We're here to help.
 
-Let's get you covered. 🚀
+You focus on building — we'll handle getting you found. 🚀
 
-— The Presswave Team
+— Rex from Presswave
 presswave.xyz | @iamrex_xyz on X`;
 
   const inboxId = encodeURIComponent(fromAddr);
@@ -306,14 +265,11 @@ async function handler(req, res) {
       csv_token: csvToken,
     }, serviceKey);
 
-    // 2. Send confirmation email with CSV download link
-    const csvUrl = `https://presswave.xyz/api/download?token=${csvToken}`;
-    
+    // 2. Send confirmation email
     await sendConfirmationEmail({
       email: customerEmail,
       name: meta.customer_name,
       productName: meta.product_name || 'your product',
-      csvUrl,
       package: meta.package || 'launch',
     });
 
