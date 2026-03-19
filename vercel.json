@@ -2,6 +2,12 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/lovable", "destination": "/lovable.html" },
+    { "source": "/directories", "destination": "/directories/index.html" },
+    { "source": "/directories/", "destination": "/directories/index.html" },
+    { "source": "/directories/category/:slug", "destination": "/directories/category/:slug.html" },
+    { "source": "/directories/:slug", "destination": "/directories/:slug.html" },
+    { "source": "/blog", "destination": "/blog/index.html" },
+    { "source": "/blog/", "destination": "/blog/index.html" },
     { "source": "/(.*)", "destination": "/$1" }
   ]
 }

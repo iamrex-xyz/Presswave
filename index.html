@@ -169,6 +169,24 @@
     text-transform: uppercase;
   }
 
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
   /* ── TICKER ── */
   .ticker-wrap {
     overflow: hidden;
@@ -1148,6 +1166,7 @@
     .proof-grid { grid-template-columns: 1fr; }
     .field-row { grid-template-columns: 1fr; }
     nav { padding: 20px 24px; }
+    .nav-links { display: none; }
     .hero, .section, .proof-section { padding-left: 24px; padding-right: 24px; }
     .offer-section { padding-left: 24px; padding-right: 24px; }
     footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
@@ -1162,8 +1181,11 @@
 <div id="page-home">
 
 <nav>
-  <a href="#" class="logo">Press<span>wave</span></a>
-  <span class="nav-tag">Automated startup visibility</span>
+  <a href="/" class="logo">Press<span>wave</span></a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+  </div>
 </nav>
 
 <div class="ticker-wrap">

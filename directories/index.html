@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Directories — Submit Your Startup | Presswave</title>
+<meta name="description" content="Browse 100+ startup directories. Get your app listed on Product Hunt, BetaList, and hundreds more with Presswave.">
+<link rel="canonical" href="https://presswave.xyz/directories/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="All Startup Directories — Presswave">
+<meta property="og:description" content="Browse 100+ startup directories. Get listed everywhere with one form.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://presswave.xyz/directories/">
+<meta property="og:image" content="https://presswave.xyz/preview.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="All Startup Directories">
+<meta name="twitter:description" content="100+ directories to boost your startup visibility">
+<meta name="twitter:image" content="https://presswave.xyz/preview.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0a0a0a;
+    --paper: #f5f2ec;
+    --warm: #f0ebe0;
+    --accent: #d4521a;
+    --accent-light: #f4e4d8;
+    --mid: #6b6560;
+    --rule: #d8d2c8;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Instrument Serif', serif;
+    --sans: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* Nav */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .nav-links a {
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* Hero */
+  .hero {
+    padding: 60px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .hero p {
+    font-size: 18px;
+    color: var(--mid);
+    margin-bottom: 32px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .hero-stat {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Categories */
+  .categories {
+    padding: 32px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .categories h2 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 16px;
+  }
+
+  .cat-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .cat-link {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    background: var(--warm);
+    padding: 8px 16px;
+    border-radius: 3px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .cat-link:hover { background: var(--accent-light); }
+
+  /* Directory List */
+  .dir-list {
+    padding: 48px 48px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .dir-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2px;
+  }
+
+  .dir-item {
+    display: block;
+    background: var(--warm);
+    padding: 24px 20px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .dir-item:hover { background: var(--accent-light); }
+
+  .dir-item-name {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .dir-item-desc {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .dir-item-meta {
+    display: flex;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--mid);
+    letter-spacing: 0.04em;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-note {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.06em;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav, .hero, .categories, .dir-list, footer { padding-left: 24px; padding-right: 24px; }
+    .dir-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Press<span>wave</span></a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/#how-it-works">How It Works</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>All Startup Directories</h1>
+  <p>Browse 100+ directories where you can list your startup. Or let us do it for you — all 100+ for $49.</p>
+  <div class="hero-stat">100 directories · Updated daily</div>
+</div>
+
+<div class="categories">
+  <h2>Browse by Category</h2>
+  <div class="cat-grid">
+    <a href="/directories/category/startups.html" class="cat-link">Startups (100)</a><a href="/directories/category/entrepreneurship.html" class="cat-link">Entrepreneurship (72)</a><a href="/directories/category/ai.html" class="cat-link">Ai (40)</a><a href="/directories/category/machine-learning.html" class="cat-link">Machine Learning (34)</a><a href="/directories/category/aggregation.html" class="cat-link">Aggregation (19)</a><a href="/directories/category/dev-tools.html" class="cat-link">Dev Tools (19)</a><a href="/directories/category/indie.html" class="cat-link">Indie (6)</a><a href="/directories/category/no-code.html" class="cat-link">No-Code (4)</a><a href="/directories/category/saas.html" class="cat-link">Saas (4)</a><a href="/directories/category/b2b.html" class="cat-link">B2B (4)</a><a href="/directories/category/growth.html" class="cat-link">Growth (1)</a><a href="/directories/category/marketing.html" class="cat-link">Marketing (1)</a>
+  </div>
+</div>
+
+<div class="dir-list">
+  <div class="dir-grid">
+    
+        <a href="/directories/ai-combined.html" class="dir-item">
+            <div class="dir-item-name">AI Combined</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>2 reach</span>
+                <span>aicombined.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-cyclopedia.html" class="dir-item">
+            <div class="dir-item-name">AI Cyclopedia</div>
+            <div class="dir-item-desc">Directory: AI Cyclopedia for startups, machine learning</div>
+            <div class="dir-item-meta">
+                <span>29 reach</span>
+                <span>aicyclopedia.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-directory.html" class="dir-item">
+            <div class="dir-item-name">AI Directory</div>
+            <div class="dir-item-desc">Directory: AI Directory for startups, machine learning</div>
+            <div class="dir-item-meta">
+                <span>8 reach</span>
+                <span>aidirectory.org</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-forme-wiki.html" class="dir-item">
+            <div class="dir-item-name">AI Forme Wiki</div>
+            <div class="dir-item-desc">Directory: AI Forme Wiki for startups, AI</div>
+            <div class="dir-item-meta">
+                <span>1 reach</span>
+                <span>aiforme.wiki</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-hunter.html" class="dir-item">
+            <div class="dir-item-name">AI Hunter</div>
+            <div class="dir-item-desc">Directory: AI Hunter for startups, machine learning</div>
+            <div class="dir-item-meta">
+                <span>29 reach</span>
+                <span>ai-hunter.io</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-marketing-directory.html" class="dir-item">
+            <div class="dir-item-name">AI Marketing Directory</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>2 reach</span>
+                <span>aimarketing.directory</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-scout.html" class="dir-item">
+            <div class="dir-item-name">AI Scout</div>
+            <div class="dir-item-desc">Directory: AI Scout for startups, machine learning</div>
+            <div class="dir-item-meta">
+                <span>40 reach</span>
+                <span>aiscout.net</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-search.html" class="dir-item">
+            <div class="dir-item-name">AI Search</div>
+            <div class="dir-item-desc">Directory: AI Search for startups, machine learning</div>
+            <div class="dir-item-meta">
+                <span>5 reach</span>
+                <span>ai-search.io</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-tool-boards.html" class="dir-item">
+            <div class="dir-item-name">AI Tool Boards</div>
+            <div class="dir-item-desc">Directory: AI Tool Boards for startups, dev tools</div>
+            <div class="dir-item-meta">
+                <span>3 reach</span>
+                <span>aitoolboard.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-tool-tips.html" class="dir-item">
+            <div class="dir-item-name">AI Tool Tips</div>
+            <div class="dir-item-desc">Directory: AI Tool Tips for startups, dev tools</div>
+            <div class="dir-item-meta">
+                <span>2 reach</span>
+                <span>aitooltips.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-tool-tracker.html" class="dir-item">
+            <div class="dir-item-name">AI Tool Tracker</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>29 reach</span>
+                <span>aitooltracker.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-tools-directory.html" class="dir-item">
+            <div class="dir-item-name">AI Tools Directory</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>17 reach</span>
+                <span>descenedigital.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-tools-directory.html" class="dir-item">
+            <div class="dir-item-name">AI Tools Directory</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>31 reach</span>
+                <span>aitoolsdirectory.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-tools-fyi.html" class="dir-item">
+            <div class="dir-item-name">AI Tools FYI</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>19 reach</span>
+                <span>aitools.fyi</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-tools-guide.html" class="dir-item">
+            <div class="dir-item-name">AI Tools Guide</div>
+            <div class="dir-item-desc">Directory: AI Tools Guide for startups, dev tools</div>
+            <div class="dir-item-meta">
+                <span>3 reach</span>
+                <span>aitoolsguide.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-tools-guru.html" class="dir-item">
+            <div class="dir-item-name">AI Tools Guru</div>
+            <div class="dir-item-desc">Directory: AI Tools Guru for startups, dev tools</div>
+            <div class="dir-item-meta">
+                <span>19 reach</span>
+                <span>aitoolguru.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-trendz.html" class="dir-item">
+            <div class="dir-item-name">AI Trendz</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>6 reach</span>
+                <span>aitrendz.xyz</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ai-wizard.html" class="dir-item">
+            <div class="dir-item-name">AI Wizard</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>10 reach</span>
+                <span>aiwizard.ai</span>
+            </div>
+        </a>
+        
+        <a href="/directories/aicenterai.html" class="dir-item">
+            <div class="dir-item-name">aicenter.ai</div>
+            <div class="dir-item-desc">Directory: aicenter.ai for startups, AI</div>
+            <div class="dir-item-meta">
+                
+                <span>aicenter.ai</span>
+            </div>
+        </a>
+        
+        <a href="/directories/aitoolsguidecom.html" class="dir-item">
+            <div class="dir-item-name">aitoolsguide.com</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>aitoolsguide.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/all-startups.html" class="dir-item">
+            <div class="dir-item-name">All Startups</div>
+            <div class="dir-item-desc">Directory: All Startups for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>32 reach</span>
+                <span>allstartups.info</span>
+            </div>
+        </a>
+        
+        <a href="/directories/all-things-ai.html" class="dir-item">
+            <div class="dir-item-name">All Things AI</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>34 reach</span>
+                <span>allthingsai.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/appadvicecomappnn.html" class="dir-item">
+            <div class="dir-item-name">appadvice.com/appnn</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>appadvice.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/appeggscomgamestank_stars.html" class="dir-item">
+            <div class="dir-item-name">appeggs.com/games/tank_stars</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>appeggs.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/apps-websites.html" class="dir-item">
+            <div class="dir-item-name">Apps & Websites</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>20 reach</span>
+                <span>appsandwebsites.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/appscribedcom.html" class="dir-item">
+            <div class="dir-item-name">appscribed.com</div>
+            <div class="dir-item-desc">Directory: appscribed.com for startups</div>
+            <div class="dir-item-meta">
+                
+                <span>appscribed.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/betabound.html" class="dir-item">
+            <div class="dir-item-name">BetaBound</div>
+            <div class="dir-item-desc">Directory: BetaBound for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>52 reach</span>
+                <span>betabound.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/chat-ai-apps.html" class="dir-item">
+            <div class="dir-item-name">Chat AI Apps</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>5 reach</span>
+                <span>chataiapps.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/chat-gpt-demo.html" class="dir-item">
+            <div class="dir-item-name">Chat GPT Demo</div>
+            <div class="dir-item-desc">Directory: Chat GPT Demo for startups, AI</div>
+            <div class="dir-item-meta">
+                <span>26 reach</span>
+                <span>chatgptdemo.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/crozdesk.html" class="dir-item">
+            <div class="dir-item-name">CrozDesk</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>75 reach</span>
+                <span>crozdesk.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/dang.html" class="dir-item">
+            <div class="dir-item-name">Dang</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>26 reach</span>
+                <span>dang.ai</span>
+            </div>
+        </a>
+        
+        <a href="/directories/design-notes.html" class="dir-item">
+            <div class="dir-item-name">Design Notes</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>29 reach</span>
+                <span>designnotes.co</span>
+            </div>
+        </a>
+        
+        <a href="/directories/domore.html" class="dir-item">
+            <div class="dir-item-name">Domore</div>
+            <div class="dir-item-desc">Directory: Domore for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>13 reach</span>
+                <span>domore.ai</span>
+            </div>
+        </a>
+        
+        <a href="/directories/easy-with-ai.html" class="dir-item">
+            <div class="dir-item-name">Easy with AI</div>
+            <div class="dir-item-desc">Directory: Easy with AI for startups, machine learning</div>
+            <div class="dir-item-meta">
+                <span>35 reach</span>
+                <span>easywithai.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/engadgetcom.html" class="dir-item">
+            <div class="dir-item-name">engadget.com</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>engadget.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/every-ai.html" class="dir-item">
+            <div class="dir-item-name">Every AI</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>2 reach</span>
+                <span>every-ai.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/first100-users.html" class="dir-item">
+            <div class="dir-item-name">First100 Users</div>
+            <div class="dir-item-desc">Directory: First100 Users for startups, aggregation</div>
+            <div class="dir-item-meta">
+                <span>11 reach</span>
+                <span>first100users.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/flipbytescomsubmit-tool.html" class="dir-item">
+            <div class="dir-item-name">flipbytes.com/submit-tool</div>
+            <div class="dir-item-desc">Directory: flipbytes.com/submit-tool for startups</div>
+            <div class="dir-item-meta">
+                
+                <span>flipbytes.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/future-agi-tools.html" class="dir-item">
+            <div class="dir-item-name">Future AGI Tools</div>
+            <div class="dir-item-desc">Directory: Future AGI Tools for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>2 reach</span>
+                <span>futureagitools.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/futurepedia.html" class="dir-item">
+            <div class="dir-item-name">Futurepedia</div>
+            <div class="dir-item-desc">Directory: Futurepedia for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>66 reach</span>
+                <span>futurepedia.io</span>
+            </div>
+        </a>
+        
+        <a href="/directories/geekwire.html" class="dir-item">
+            <div class="dir-item-name">GeekWire</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>86 reach</span>
+                <span>geekwire.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/gpt-academy.html" class="dir-item">
+            <div class="dir-item-name">GPT Academy</div>
+            <div class="dir-item-desc">Directory: GPT Academy for startups, AI</div>
+            <div class="dir-item-meta">
+                <span>2 reach</span>
+                <span>gptacademy.co</span>
+            </div>
+        </a>
+        
+        <a href="/directories/gpt-demo.html" class="dir-item">
+            <div class="dir-item-name">GPT Demo</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>5 reach</span>
+                <span>gptdemo.net</span>
+            </div>
+        </a>
+        
+        <a href="/directories/gpte.html" class="dir-item">
+            <div class="dir-item-name">GPTE</div>
+            <div class="dir-item-desc">Directory: GPTE for startups, AI</div>
+            <div class="dir-item-meta">
+                <span>21 reach</span>
+                <span>gpte.ai</span>
+            </div>
+        </a>
+        
+        <a href="/directories/gptforge.html" class="dir-item">
+            <div class="dir-item-name">GPTforge</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>2 reach</span>
+                <span>gptforge.net</span>
+            </div>
+        </a>
+        
+        <a href="/directories/hacker-news.html" class="dir-item">
+            <div class="dir-item-name">Hacker News</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>90 reach</span>
+                <span>news.ycombinator.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/inc42.html" class="dir-item">
+            <div class="dir-item-name">Inc42</div>
+            <div class="dir-item-desc">Directory: Inc42 for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>80 reach</span>
+                <span>inc42.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/indie-deals.html" class="dir-item">
+            <div class="dir-item-name">Indie Deals</div>
+            <div class="dir-item-desc">Directory: Indie Deals for indie, startups</div>
+            <div class="dir-item-meta">
+                <span>21 reach</span>
+                <span>indie.deals</span>
+            </div>
+        </a>
+        
+        <a href="/directories/indie-hackers.html" class="dir-item">
+            <div class="dir-item-name">Indie Hackers</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>80 reach</span>
+                <span>indiehackers.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/indie-tools.html" class="dir-item">
+            <div class="dir-item-name">Indie Tools</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>1 reach</span>
+                <span>indietools.co</span>
+            </div>
+        </a>
+        
+        <a href="/directories/insanely-cool-tools.html" class="dir-item">
+            <div class="dir-item-name">Insanely Cool Tools</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>33 reach</span>
+                <span>insanelycooltools.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/inside.html" class="dir-item">
+            <div class="dir-item-name">Inside</div>
+            <div class="dir-item-desc">Directory: Inside for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>72 reach</span>
+                <span>inside.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/insidethewarehouseai.html" class="dir-item">
+            <div class="dir-item-name">inside.thewarehouse.ai</div>
+            <div class="dir-item-desc">Directory: inside.thewarehouse.ai for startups, AI</div>
+            <div class="dir-item-meta">
+                
+                <span>inside.thewarehouse.ai</span>
+            </div>
+        </a>
+        
+        <a href="/directories/land-book.html" class="dir-item">
+            <div class="dir-item-name">Land Book</div>
+            <div class="dir-item-desc">Directory: Land Book for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>67 reach</span>
+                <span>land-book.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/landingsdev.html" class="dir-item">
+            <div class="dir-item-name">Landings.dev</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>19 reach</span>
+                <span>landings.dev</span>
+            </div>
+        </a>
+        
+        <a href="/directories/launched.html" class="dir-item">
+            <div class="dir-item-name">Launched</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>38 reach</span>
+                <span>launched.io</span>
+            </div>
+        </a>
+        
+        <a href="/directories/launchedionewsubmission.html" class="dir-item">
+            <div class="dir-item-name">launched.io/newsubmission</div>
+            <div class="dir-item-desc">Directory: launched.io/newsubmission for startups</div>
+            <div class="dir-item-meta">
+                
+                <span>launched.io</span>
+            </div>
+        </a>
+        
+        <a href="/directories/listint-ai.html" class="dir-item">
+            <div class="dir-item-name">Listint AI</div>
+            <div class="dir-item-desc">Directory: Listint AI for startups, machine learning</div>
+            <div class="dir-item-meta">
+                <span>2 reach</span>
+                <span>listintai.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/makerpeak.html" class="dir-item">
+            <div class="dir-item-name">MakerPeak</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>4 reach</span>
+                <span>makerpeak.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/marsx-ai.html" class="dir-item">
+            <div class="dir-item-name">Marsx AI</div>
+            <div class="dir-item-desc">Directory: Marsx AI for startups, machine learning</div>
+            <div class="dir-item-meta">
+                <span>38 reach</span>
+                <span>marsx.dev</span>
+            </div>
+        </a>
+        
+        <a href="/directories/microstartupsco.html" class="dir-item">
+            <div class="dir-item-name">MicroStartups.co</div>
+            <div class="dir-item-desc">Directory: MicroStartups.co for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>4 reach</span>
+                <span>microstartups.co</span>
+            </div>
+        </a>
+        
+        <a href="/directories/neoco-tools.html" class="dir-item">
+            <div class="dir-item-name">Neoco Tools</div>
+            <div class="dir-item-desc">Directory: Neoco Tools for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>8 reach</span>
+                <span>neoco.io</span>
+            </div>
+        </a>
+        
+        <a href="/directories/newsbensbitesco.html" class="dir-item">
+            <div class="dir-item-name">news.bensbites.co</div>
+            <div class="dir-item-desc">Directory: news.bensbites.co for startups</div>
+            <div class="dir-item-meta">
+                
+                <span>news.bensbites.co</span>
+            </div>
+        </a>
+        
+        <a href="/directories/nextpedia.html" class="dir-item">
+            <div class="dir-item-name">Nextpedia</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>15 reach</span>
+                <span>nextpedia.io</span>
+            </div>
+        </a>
+        
+        <a href="/directories/nineovertencom.html" class="dir-item">
+            <div class="dir-item-name">nineoverten.com</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>nineoverten.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/no-code-tools.html" class="dir-item">
+            <div class="dir-item-name">No Code Tools</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>48 reach</span>
+                <span>nocodefounders.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/nocode-essentials.html" class="dir-item">
+            <div class="dir-item-name">Nocode Essentials</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>26 reach</span>
+                <span>nocodeessentials.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/nocode-family.html" class="dir-item">
+            <div class="dir-item-name">NoCode Family</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>23 reach</span>
+                <span>nocodefamily.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/nocode-list.html" class="dir-item">
+            <div class="dir-item-name">NoCode List</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>40 reach</span>
+                <span>nocodelist.co</span>
+            </div>
+        </a>
+        
+        <a href="/directories/noteable-ai.html" class="dir-item">
+            <div class="dir-item-name">Noteable AI</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>17 reach</span>
+                <span>noteableai.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/owwly.html" class="dir-item">
+            <div class="dir-item-name">Owwly</div>
+            <div class="dir-item-desc">Directory: Owwly for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>22 reach</span>
+                <span>owwly.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/pitchwall.html" class="dir-item">
+            <div class="dir-item-name">Pitchwall</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>53 reach</span>
+                <span>pitchwall.co</span>
+            </div>
+        </a>
+        
+        <a href="/directories/productivitydirectory.html" class="dir-item">
+            <div class="dir-item-name">productivity.directory</div>
+            <div class="dir-item-desc">Directory: productivity.directory for startups</div>
+            <div class="dir-item-meta">
+                
+                <span>productivity.directory</span>
+            </div>
+        </a>
+        
+        <a href="/directories/profithunt.html" class="dir-item">
+            <div class="dir-item-name">ProfitHunt</div>
+            <div class="dir-item-desc">Directory: ProfitHunt for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>4 reach</span>
+                <span>profithunt.co</span>
+            </div>
+        </a>
+        
+        <a href="/directories/promote-project.html" class="dir-item">
+            <div class="dir-item-name">Promote Project</div>
+            <div class="dir-item-desc">Directory: Promote Project for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>29 reach</span>
+                <span>promoteproject.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/saas-gpters.html" class="dir-item">
+            <div class="dir-item-name">SaaS GPTers</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>31 reach</span>
+                <span>saasgpters.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/saas-surf.html" class="dir-item">
+            <div class="dir-item-name">SAAS Surf</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>21 reach</span>
+                <span>saassurf.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/saashub.html" class="dir-item">
+            <div class="dir-item-name">SAAShub</div>
+            <div class="dir-item-desc">Directory: SAAShub for startups, B2B</div>
+            <div class="dir-item-meta">
+                <span>68 reach</span>
+                <span>saashub.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/saaspo.html" class="dir-item">
+            <div class="dir-item-name">SAASpo</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>20 reach</span>
+                <span>saaspo.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/snapmunk-startup.html" class="dir-item">
+            <div class="dir-item-name">Snapmunk Startup</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>58 reach</span>
+                <span>startups.snapmunk.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/spectacle.html" class="dir-item">
+            <div class="dir-item-name">Spectacle</div>
+            <div class="dir-item-desc">Directory: Spectacle for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>34 reach</span>
+                <span>spectacle.is</span>
+            </div>
+        </a>
+        
+        <a href="/directories/stackshare.html" class="dir-item">
+            <div class="dir-item-name">Stackshare</div>
+            <div class="dir-item-desc">Directory: Stackshare for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>79 reach</span>
+                <span>stackshare.io</span>
+            </div>
+        </a>
+        
+        <a href="/directories/startup-ai-tools.html" class="dir-item">
+            <div class="dir-item-name">Startup AI Tools</div>
+            <div class="dir-item-desc">Directory: Startup AI Tools for startups, dev tools</div>
+            <div class="dir-item-meta">
+                <span>5 reach</span>
+                <span>startupaitools.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/startup-base.html" class="dir-item">
+            <div class="dir-item-name">Startup Base</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>52 reach</span>
+                <span>startupbase.io</span>
+            </div>
+        </a>
+        
+        <a href="/directories/startup-ranking.html" class="dir-item">
+            <div class="dir-item-name">Startup Ranking</div>
+            <div class="dir-item-desc">Directory: Startup Ranking for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>66 reach</span>
+                <span>startupranking.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/startupbuffer.html" class="dir-item">
+            <div class="dir-item-name">StartupBuffer</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>36 reach</span>
+                <span>startupbuffer.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/startupinspire.html" class="dir-item">
+            <div class="dir-item-name">StartupInspire</div>
+            <div class="dir-item-desc">Directory: StartupInspire for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>31 reach</span>
+                <span>startupinspire.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/startuptile.html" class="dir-item">
+            <div class="dir-item-name">StartupTile</div>
+            <div class="dir-item-desc">Directory: StartupTile for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>1 reach</span>
+                <span>startuptile.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/super-tools.html" class="dir-item">
+            <div class="dir-item-name">Super Tools</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>49 reach</span>
+                <span>supertools.therundown.ai</span>
+            </div>
+        </a>
+        
+        <a href="/directories/superaitoolsio.html" class="dir-item">
+            <div class="dir-item-name">superaitools.io</div>
+            <div class="dir-item-desc">Directory: superaitools.io for startups, AI</div>
+            <div class="dir-item-meta">
+                
+                <span>superaitools.io</span>
+            </div>
+        </a>
+        
+        <a href="/directories/the-ai-generation.html" class="dir-item">
+            <div class="dir-item-name">The AI Generation</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>2 reach</span>
+                <span>theaigeneration.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/the-ware-house.html" class="dir-item">
+            <div class="dir-item-name">The Ware House</div>
+            <div class="dir-item-desc">Directory: The Ware House for startups, aggregation</div>
+            <div class="dir-item-meta">
+                <span>5 reach</span>
+                <span>thewarehouse.ai</span>
+            </div>
+        </a>
+        
+        <a href="/directories/theainavigatorcom.html" class="dir-item">
+            <div class="dir-item-name">theainavigator.com</div>
+            <div class="dir-item-desc">Directory: theainavigator.com for startups, AI</div>
+            <div class="dir-item-meta">
+                
+                <span>theainavigator.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/theres-an-ai-for-that.html" class="dir-item">
+            <div class="dir-item-name">There's an AI For That</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>62 reach</span>
+                <span>theresanaiforthat.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/tipseasoncom.html" class="dir-item">
+            <div class="dir-item-name">tipseason.com</div>
+            <div class="dir-item-desc">Directory: tipseason.com for startups</div>
+            <div class="dir-item-meta">
+                
+                <span>tipseason.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/tools-ai.html" class="dir-item">
+            <div class="dir-item-name">Tools AI</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>6 reach</span>
+                <span>toolsai.net</span>
+            </div>
+        </a>
+        
+        <a href="/directories/tools-for-makers.html" class="dir-item">
+            <div class="dir-item-name">Tools For Makers</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                <span>9 reach</span>
+                <span>toolsformakers.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/tools-story.html" class="dir-item">
+            <div class="dir-item-name">Tools Story</div>
+            <div class="dir-item-desc">Directory: Tools Story for startups, entrepreneurship</div>
+            <div class="dir-item-meta">
+                <span>9 reach</span>
+                <span>toolsstory.net</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ww1appstousecom.html" class="dir-item">
+            <div class="dir-item-name">ww1.appstouse.com</div>
+            <div class="dir-item-desc">Directory: ww1.appstouse.com for startups, aggregation</div>
+            <div class="dir-item-meta">
+                
+                <span>ww1.appstouse.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/xcommarvr_.html" class="dir-item">
+            <div class="dir-item-name">x.com/marvr_</div>
+            <div class="dir-item-desc">Directory: x.com/marvr_ for startups</div>
+            <div class="dir-item-meta">
+                
+                <span>x.com</span>
+            </div>
+        </a>
+        
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Press<span>wave</span></div>
+  <div class="footer-note">A Napkin Labs venture · Powered by AI</div>
+</footer>
+
+</body>
+</html>
