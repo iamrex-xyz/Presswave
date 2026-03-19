@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Directories — Submit Your Startup | Presswave</title>
+<meta name="description" content="Browse 90 Python directories. Get your Python startup listed everywhere with Presswave.">
+<link rel="canonical" href="https://presswave.xyz/directories/category/python.html">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Python Startup Directories — Presswave">
+<meta property="og:description" content="90 directories for Python startups">
+<meta property="og:url" content="https://presswave.xyz/directories/category/python.html">
+<meta property="og:image" content="https://presswave.xyz/preview.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0a0a0a;
+    --paper: #f5f2ec;
+    --warm: #f0ebe0;
+    --accent: #d4521a;
+    --accent-light: #f4e4d8;
+    --mid: #6b6560;
+    --rule: #d8d2c8;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Instrument Serif', serif;
+    --sans: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .nav-links a {
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .breadcrumb {
+    padding: 20px 48px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.04em;
+  }
+
+  .breadcrumb a {
+    color: var(--mid);
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover { color: var(--accent); }
+
+  .hero {
+    padding: 48px 48px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .hero p {
+    font-size: 17px;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+
+  .dir-list {
+    padding: 40px 48px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .dir-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2px;
+  }
+
+  .dir-item {
+    display: block;
+    background: var(--warm);
+    padding: 24px 20px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .dir-item:hover { background: var(--accent-light); }
+
+  .dir-item-name {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .dir-item-desc {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .dir-item-meta {
+    display: flex;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--mid);
+    letter-spacing: 0.04em;
+  }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-note {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 768px) {
+    nav, .breadcrumb, .hero, .dir-list, footer { padding-left: 24px; padding-right: 24px; }
+    .dir-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Press<span>wave</span></a>
+  <div class="nav-links">
+    <a href="/directories/">All Directories</a>
+    <a href="/">Home</a>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <a href="/">Home</a> / <a href="/directories/">Directories</a> / Python
+</div>
+
+<div class="hero">
+  <h1>Python Directories</h1>
+  <p>90 directories focused on Python. Get listed on all of them (+ 910 more) for $49.</p>
+</div>
+
+<div class="dir-list">
+  <div class="dir-grid">
+    
+        <a href="/directories/algorithms.html" class="dir-item">
+            <div class="dir-item-name">algorithms</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/argparse.html" class="dir-item">
+            <div class="dir-item-name">argparse</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>docs.python.org</span>
+            </div>
+        </a>
+        
+        <a href="/directories/asgi.html" class="dir-item">
+            <div class="dir-item-name">ASGI</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>asgi.readthedocs.io</span>
+            </div>
+        </a>
+        
+        <a href="/directories/asyncio.html" class="dir-item">
+            <div class="dir-item-name">asyncio</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>docs.python.org</span>
+            </div>
+        </a>
+        
+        <a href="/directories/attrs.html" class="dir-item">
+            <div class="dir-item-name">attrs</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/audioflux.html" class="dir-item">
+            <div class="dir-item-name">audioFlux</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/audioread.html" class="dir-item">
+            <div class="dir-item-name">audioread</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/authlib.html" class="dir-item">
+            <div class="dir-item-name">authlib</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/beaker.html" class="dir-item">
+            <div class="dir-item-name">beaker</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/beets.html" class="dir-item">
+            <div class="dir-item-name">beets</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/bidict.html" class="dir-item">
+            <div class="dir-item-name">bidict</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/bitbake.html" class="dir-item">
+            <div class="dir-item-name">bitbake</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/black.html" class="dir-item">
+            <div class="dir-item-name">black</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/box.html" class="dir-item">
+            <div class="dir-item-name">box</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/buildout.html" class="dir-item">
+            <div class="dir-item-name">buildout</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/cement.html" class="dir-item">
+            <div class="dir-item-name">cement</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/cern.html" class="dir-item">
+            <div class="dir-item-name">CERN</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>en.wikipedia.org</span>
+            </div>
+        </a>
+        
+        <a href="/directories/click.html" class="dir-item">
+            <div class="dir-item-name">click</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/cliff.html" class="dir-item">
+            <div class="dir-item-name">cliff</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/code-graph-rag.html" class="dir-item">
+            <div class="dir-item-name">code-graph-rag</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/code2flow.html" class="dir-item">
+            <div class="dir-item-name">code2flow</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/daphne.html" class="dir-item">
+            <div class="dir-item-name">daphne</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/dataclasses.html" class="dir-item">
+            <div class="dir-item-name">dataclasses</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>docs.python.org</span>
+            </div>
+        </a>
+        
+        <a href="/directories/dejavu.html" class="dir-item">
+            <div class="dir-item-name">dejavu</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/django-allauth.html" class="dir-item">
+            <div class="dir-item-name">django-allauth</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/django-cache-machine.html" class="dir-item">
+            <div class="dir-item-name">django-cache-machine</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/django-cacheops.html" class="dir-item">
+            <div class="dir-item-name">django-cacheops</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/django-grappelli.html" class="dir-item">
+            <div class="dir-item-name">django-grappelli</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/django-oauth-toolkit.html" class="dir-item">
+            <div class="dir-item-name">django-oauth-toolkit</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/django-unfold.html" class="dir-item">
+            <div class="dir-item-name">django-unfold</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/dogpilecache.html" class="dir-item">
+            <div class="dir-item-name">dogpile.cache</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/dotteddict.html" class="dir-item">
+            <div class="dir-item-name">dotteddict</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/eyed3.html" class="dir-item">
+            <div class="dir-item-name">eyed3</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/feincms.html" class="dir-item">
+            <div class="dir-item-name">feincms</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/flake8.html" class="dir-item">
+            <div class="dir-item-name">flake8</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/flower.html" class="dir-item">
+            <div class="dir-item-name">flower</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/func-to-web.html" class="dir-item">
+            <div class="dir-item-name">func-to-web</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/gevent.html" class="dir-item">
+            <div class="dir-item-name">gevent</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/granian.html" class="dir-item">
+            <div class="dir-item-name">granian</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/greenlet.html" class="dir-item">
+            <div class="dir-item-name">greenlet</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/gtts.html" class="dir-item">
+            <div class="dir-item-name">gTTS</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/hermescache.html" class="dir-item">
+            <div class="dir-item-name">hermescache</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>pypi.org</span>
+            </div>
+        </a>
+        
+        <a href="/directories/hypercorn.html" class="dir-item">
+            <div class="dir-item-name">hypercorn</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/indico.html" class="dir-item">
+            <div class="dir-item-name">indico</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/isort.html" class="dir-item">
+            <div class="dir-item-name">isort</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/jet-bridge.html" class="dir-item">
+            <div class="dir-item-name">jet-bridge</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/kapre.html" class="dir-item">
+            <div class="dir-item-name">kapre</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/libmemcached.html" class="dir-item">
+            <div class="dir-item-name">libmemcached</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>libmemcached.org</span>
+            </div>
+        </a>
+        
+        <a href="/directories/librosa.html" class="dir-item">
+            <div class="dir-item-name">librosa</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/matchering.html" class="dir-item">
+            <div class="dir-item-name">matchering</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/mingus.html" class="dir-item">
+            <div class="dir-item-name">mingus</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>bspaans.github.io</span>
+            </div>
+        </a>
+        
+        <a href="/directories/monkeytype.html" class="dir-item">
+            <div class="dir-item-name">monkeytype</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/multiprocessing.html" class="dir-item">
+            <div class="dir-item-name">multiprocessing</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>docs.python.org</span>
+            </div>
+        </a>
+        
+        <a href="/directories/musicbrainz.html" class="dir-item">
+            <div class="dir-item-name">MusicBrainz</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>musicbrainz.org</span>
+            </div>
+        </a>
+        
+        <a href="/directories/mutagen.html" class="dir-item">
+            <div class="dir-item-name">mutagen</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/mypy.html" class="dir-item">
+            <div class="dir-item-name">mypy</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/oauthlib.html" class="dir-item">
+            <div class="dir-item-name">oauthlib</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/platformio.html" class="dir-item">
+            <div class="dir-item-name">platformio</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/prospector.html" class="dir-item">
+            <div class="dir-item-name">prospector</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/pyaudioanalysis.html" class="dir-item">
+            <div class="dir-item-name">pyaudioanalysis</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/pybuilder.html" class="dir-item">
+            <div class="dir-item-name">pybuilder</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/pydub.html" class="dir-item">
+            <div class="dir-item-name">pydub</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/pyjwt.html" class="dir-item">
+            <div class="dir-item-name">pyjwt</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/pylibmc.html" class="dir-item">
+            <div class="dir-item-name">pylibmc</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/pylint.html" class="dir-item">
+            <div class="dir-item-name">pylint</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/pyre-check.html" class="dir-item">
+            <div class="dir-item-name">pyre-check</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/python-cqrs.html" class="dir-item">
+            <div class="dir-item-name">python-cqrs</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/python-diskcache.html" class="dir-item">
+            <div class="dir-item-name">python-diskcache</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/python-ds.html" class="dir-item">
+            <div class="dir-item-name">python-ds</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/python-fire.html" class="dir-item">
+            <div class="dir-item-name">python-fire</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/python-jose.html" class="dir-item">
+            <div class="dir-item-name">python-jose</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/python-patterns.html" class="dir-item">
+            <div class="dir-item-name">python-patterns</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/pytype.html" class="dir-item">
+            <div class="dir-item-name">pytype</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/ruff.html" class="dir-item">
+            <div class="dir-item-name">ruff</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/scons.html" class="dir-item">
+            <div class="dir-item-name">scons</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/sortedcontainers.html" class="dir-item">
+            <div class="dir-item-name">sortedcontainers</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/streamlit.html" class="dir-item">
+            <div class="dir-item-name">streamlit</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/thealgorithms.html" class="dir-item">
+            <div class="dir-item-name">thealgorithms</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/timeside.html" class="dir-item">
+            <div class="dir-item-name">timeside</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/tinytag.html" class="dir-item">
+            <div class="dir-item-name">tinytag</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/transitions.html" class="dir-item">
+            <div class="dir-item-name">transitions</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/trio.html" class="dir-item">
+            <div class="dir-item-name">trio</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/twisted.html" class="dir-item">
+            <div class="dir-item-name">twisted</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/typeshed.html" class="dir-item">
+            <div class="dir-item-name">typeshed</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/uvicorn.html" class="dir-item">
+            <div class="dir-item-name">uvicorn</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/uvloop.html" class="dir-item">
+            <div class="dir-item-name">uvloop</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/vulture.html" class="dir-item">
+            <div class="dir-item-name">vulture</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/wagtail.html" class="dir-item">
+            <div class="dir-item-name">wagtail</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/wooey.html" class="dir-item">
+            <div class="dir-item-name">wooey</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+        <a href="/directories/yapf.html" class="dir-item">
+            <div class="dir-item-name">yapf</div>
+            <div class="dir-item-desc"></div>
+            <div class="dir-item-meta">
+                
+                <span>github.com</span>
+            </div>
+        </a>
+        
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Press<span>wave</span></div>
+  <div class="footer-note">A Napkin Labs venture · Powered by AI</div>
+</footer>
+
+</body>
+</html>
