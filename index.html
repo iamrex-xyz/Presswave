@@ -1157,6 +1157,257 @@
   .fade-in:nth-child(3) { animation-delay: 0.3s; }
   .fade-in:nth-child(4) { animation-delay: 0.4s; }
 
+  /* ── PRESS-READINESS SCANNER ── */
+  .scanner-results {
+    margin-top: 24px;
+    animation: fadeSlideUp 0.4s ease forwards;
+  }
+
+  .score-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+
+  .score-circle {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent) 0%, rgba(255,255,255,0.1) 0%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: background 0.6s ease;
+  }
+
+  .score-circle::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    background: var(--ink);
+    border-radius: 50%;
+    z-index: 0;
+  }
+
+  .score-num {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: var(--accent);
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .score-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(245,242,236,0.4);
+    position: relative;
+    z-index: 1;
+  }
+
+  .score-status {
+    flex: 1;
+  }
+
+  .score-status-text {
+    font-family: var(--serif);
+    font-size: 20px;
+    color: var(--paper);
+    margin-bottom: 4px;
+  }
+
+  .score-status-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.4);
+  }
+
+  .score-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .breakdown-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr auto;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .breakdown-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: rgba(245,242,236,0.7);
+    font-family: var(--sans);
+  }
+
+  .breakdown-icon {
+    font-size: 14px;
+  }
+
+  .breakdown-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .breakdown-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #f4a261);
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+
+  .breakdown-score {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(245,242,236,0.5);
+    min-width: 40px;
+    text-align: right;
+  }
+
+  .matched-preview {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .matched-header {
+    font-size: 13px;
+    color: rgba(245,242,236,0.6);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .matched-header strong {
+    color: var(--accent);
+  }
+
+  .matched-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .matched-list.blurred {
+    filter: blur(4px);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .matched-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 3px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .matched-item-name {
+    font-size: 13px;
+    color: var(--paper);
+    font-weight: 600;
+  }
+
+  .matched-item-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(212,82,26,0.8);
+    letter-spacing: 0.04em;
+  }
+
+  .matched-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(180deg, transparent 0%, var(--ink) 70%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 12px;
+    pointer-events: none;
+  }
+
+  .matched-cta {
+    background: rgba(212,82,26,0.15);
+    border: 1px solid rgba(212,82,26,0.3);
+    border-radius: 3px;
+    padding: 8px 16px;
+  }
+
+  .matched-cta-text {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+
+  .email-unlock {
+    margin-bottom: 16px;
+  }
+
+  .full-report {
+    margin-top: 20px;
+  }
+
+  .suggestions {
+    background: rgba(255,255,255,0.04);
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .suggestions-header {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--paper);
+    margin-bottom: 12px;
+  }
+
+  .suggestions ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .suggestions ul li {
+    font-size: 12px;
+    color: rgba(245,242,236,0.7);
+    line-height: 1.5;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .suggestions ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .hero { grid-template-columns: 1fr; gap: 48px; }
@@ -1255,73 +1506,122 @@
   </div>
 
   <div class="hero-right">
-    <div class="form-card">
-      <span class="form-label">Step 1 of 2</span>
-      <h2>Describe your startup</h2>
-      <p class="form-intro">Tell us what you built. We'll show you where you'll show up.</p>
+    <!-- PRESS-READINESS SCANNER (Primary CTA) -->
+    <div class="form-card" id="scanner-card">
+      <span class="form-label">Free Press-Readiness Scanner</span>
+      <h2>Is your startup press-ready?</h2>
+      <p class="form-intro">Enter your URL. We'll analyze your site and show you exactly what needs fixing before launch.</p>
 
       <div class="field">
-        <label>What does your product do?</label>
-        <textarea id="product-desc" rows="3" maxlength="500" placeholder="e.g. An AI tool that turns meeting notes into structured action items for remote teams."></textarea>
+        <label>Your startup URL</label>
+        <input type="url" id="scan-url" placeholder="https://yourproduct.com">
       </div>
 
-      <div class="field">
-        <label>Product URL</label>
-        <input type="url" id="product-url" placeholder="https://yourproduct.com">
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <label>Product name</label>
-          <input type="text" id="product-name" placeholder="e.g. MeetingMind">
-        </div>
-        <div class="field">
-          <label>Category</label>
-          <select id="category">
-            <option value="">Select...</option>
-            <option value="ai-ml">AI / Machine Learning</option>
-            <option value="saas">SaaS / B2B</option>
-            <option value="developer-tools">Developer Tools</option>
-            <option value="productivity">Productivity</option>
-            <option value="marketing">Marketing</option>
-            <option value="fintech">Fintech</option>
-            <option value="health">Health / Wellness</option>
-            <option value="ecommerce">E-commerce</option>
-            <option value="education">Education</option>
-            <option value="social">Social / Community</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-      </div>
-
-      <button class="calc-btn" id="calc-btn" onclick="showMatches()">
-        <span>See my reach</span>
-        <span class="btn-icon">→</span>
+      <button class="calc-btn" id="scan-btn" onclick="runPressScanner()">
+        <span>Scan my site (free)</span>
+        <span class="btn-icon">🔍</span>
       </button>
 
-      <p class="form-note">Free to check · No credit card required</p>
+      <p class="form-note">Free · No credit card · Instant results</p>
 
-      <!-- RESULT BOX -->
-      <div class="result-box" id="result-box">
-        <div class="result-header">Your visibility boost</div>
-        <div class="result-sub">Based on your product and category</div>
-
-        <div class="result-stats">
-          <div class="result-stat">
-            <div class="result-stat-num" id="dir-count">0</div>
-            <div class="result-stat-label">Directories</div>
+      <!-- SCANNER RESULTS -->
+      <div class="scanner-results" id="scanner-results" style="display:none;">
+        <!-- Score display -->
+        <div class="score-header">
+          <div class="score-circle">
+            <div class="score-num" id="score-display">0</div>
+            <div class="score-label">/ 100</div>
           </div>
-          <div class="result-stat">
-            <div class="result-stat-num" id="reach-count">0</div>
-            <div class="result-stat-label">Est. reach</div>
+          <div class="score-status">
+            <div class="score-status-text" id="score-status-text">Analyzing...</div>
+            <div class="score-status-sub" id="score-status-sub">Press-Readiness Score</div>
           </div>
         </div>
 
-        <button class="pay-btn" onclick="goToStep2()">
-          <span>Get my boost — $49</span>
-          <span>→</span>
-        </button>
-        <p class="pay-note">One form. We handle the rest.</p>
+        <!-- Breakdown -->
+        <div class="score-breakdown">
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <span class="breakdown-icon">🌐</span>
+              <span>Website Quality</span>
+            </div>
+            <div class="breakdown-bar">
+              <div class="breakdown-fill" id="bar-website" style="width: 0%"></div>
+            </div>
+            <div class="breakdown-score" id="score-website">0/35</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <span class="breakdown-icon">📱</span>
+              <span>Social Presence</span>
+            </div>
+            <div class="breakdown-bar">
+              <div class="breakdown-fill" id="bar-social" style="width: 0%"></div>
+            </div>
+            <div class="breakdown-score" id="score-social">0/20</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <span class="breakdown-icon">🚀</span>
+              <span>Launch Readiness</span>
+            </div>
+            <div class="breakdown-bar">
+              <div class="breakdown-fill" id="bar-launch" style="width: 0%"></div>
+            </div>
+            <div class="breakdown-score" id="score-launch">0/25</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <span class="breakdown-icon">📝</span>
+              <span>Content Signals</span>
+            </div>
+            <div class="breakdown-bar">
+              <div class="breakdown-fill" id="bar-content" style="width: 0%"></div>
+            </div>
+            <div class="breakdown-score" id="score-content">0/20</div>
+          </div>
+        </div>
+
+        <!-- Matched contacts preview (blurred) -->
+        <div class="matched-preview">
+          <div class="matched-header">
+            <span class="matched-icon">📰</span>
+            <span>We found <strong id="match-count">0</strong> relevant media contacts</span>
+          </div>
+          <div class="matched-list blurred" id="matched-list">
+            <!-- Populated via JS -->
+          </div>
+          <div class="matched-overlay">
+            <div class="matched-cta">
+              <span class="matched-cta-text">Enter your email to unlock full report</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email unlock -->
+        <div class="email-unlock" id="email-unlock">
+          <div class="field">
+            <input type="email" id="unlock-email" placeholder="you@startup.com" style="text-align: center;">
+          </div>
+          <button class="calc-btn" onclick="unlockReport()">
+            <span>Unlock full report</span>
+            <span class="btn-icon">🔓</span>
+          </button>
+        </div>
+
+        <!-- Full report (after email) -->
+        <div class="full-report" id="full-report" style="display:none;">
+          <div class="suggestions">
+            <div class="suggestions-header">💡 Priority fixes</div>
+            <ul id="suggestions-list"></ul>
+          </div>
+
+          <button class="pay-btn" onclick="goToCheckout()">
+            <span>Get me listed everywhere — $49</span>
+            <span>→</span>
+          </button>
+          <p class="pay-note">300+ directories · Done for you · Full report</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1702,6 +2002,174 @@
     }).catch(() => {});
   }
 
+  // ── PRESS-READINESS SCANNER ──
+  let scannerData = {};
+
+  async function runPressScanner() {
+    const url = document.getElementById('scan-url').value.trim();
+    if (!url) {
+      document.getElementById('scan-url').focus();
+      document.getElementById('scan-url').style.borderColor = 'var(--accent)';
+      return;
+    }
+
+    if (!url.match(/^https?:\/\//)) {
+      alert('Please enter a valid URL starting with http:// or https://');
+      return;
+    }
+
+    // Track scan start
+    if (window.posthog) posthog.capture('scan_started', { url });
+
+    const btn = document.getElementById('scan-btn');
+    btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url, action: 'scan' })
+      });
+
+      if (!res.ok) throw new Error('Scan failed');
+      
+      const data = await res.json();
+      scannerData = { url, ...data };
+
+      // Track scan completed
+      if (window.posthog) posthog.capture('scan_completed', { url, score: data.score });
+
+      displayScanResults(data);
+
+    } catch (e) {
+      alert('Failed to scan URL. Please check the URL and try again.');
+      console.error('Scanner error:', e);
+    } finally {
+      btn.innerHTML = '<span>Scan my site (free)</span><span class="btn-icon">🔍</span>';
+      btn.disabled = false;
+    }
+  }
+
+  function displayScanResults(data) {
+    const resultsEl = document.getElementById('scanner-results');
+    resultsEl.style.display = 'block';
+
+    // Animate score circle
+    const score = data.score || 0;
+    const percentage = (score / 100) * 360;
+    document.querySelector('.score-circle').style.background = 
+      `conic-gradient(var(--accent) ${percentage}deg, rgba(255,255,255,0.1) ${percentage}deg)`;
+    
+    // Animate score number
+    animateCount(score, document.getElementById('score-display'));
+
+    // Status text based on score
+    const statusEl = document.getElementById('score-status-text');
+    if (score >= 80) statusEl.textContent = 'Excellent! Ready to launch';
+    else if (score >= 60) statusEl.textContent = 'Good start. A few tweaks needed';
+    else if (score >= 40) statusEl.textContent = 'Needs work before going live';
+    else statusEl.textContent = 'High priority: Fix these issues';
+
+    // Breakdown bars
+    const breakdown = data.breakdown || {};
+    animateBar('website', breakdown.websiteQuality || 0, 35);
+    animateBar('social', breakdown.socialPresence || 0, 20);
+    animateBar('launch', breakdown.launchReadiness || 0, 25);
+    animateBar('content', breakdown.contentSignals || 0, 20);
+
+    // Matched contacts (blurred preview)
+    const contacts = data.contacts || [];
+    document.getElementById('match-count').textContent = data.totalMatches || contacts.length;
+    
+    const listEl = document.getElementById('matched-list');
+    listEl.innerHTML = contacts.slice(0, 3).map(c => `
+      <div class="matched-item">
+        <span class="matched-item-name">${esc(c.name || 'Media Contact')}</span>
+        <span class="matched-item-tag">${c.audience_size ? formatNum(c.audience_size) + ' reach' : 'Directory'}</span>
+      </div>
+    `).join('');
+
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function animateBar(id, value, max) {
+    const fillEl = document.getElementById(`bar-${id}`);
+    const scoreEl = document.getElementById(`score-${id}`);
+    const percentage = (value / max) * 100;
+    
+    setTimeout(() => {
+      fillEl.style.width = `${percentage}%`;
+    }, 100);
+    
+    scoreEl.textContent = `${value}/${max}`;
+  }
+
+  async function unlockReport() {
+    const email = document.getElementById('unlock-email').value.trim();
+    if (!email || !email.includes('@')) {
+      alert('Please enter a valid email address');
+      return;
+    }
+
+    // Track email capture
+    if (window.posthog) {
+      posthog.identify(email);
+      posthog.capture('email_captured', { url: scannerData.url, score: scannerData.score });
+    }
+
+    const btn = event.target;
+    btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: scannerData.url, email, action: 'unlock' })
+      });
+
+      if (!res.ok) throw new Error('Unlock failed');
+      
+      const data = await res.json();
+
+      // Show full report
+      document.getElementById('email-unlock').style.display = 'none';
+      document.getElementById('matched-list').classList.remove('blurred');
+      document.querySelector('.matched-overlay').style.display = 'none';
+      document.getElementById('full-report').style.display = 'block';
+
+      // Display suggestions
+      const suggestions = data.suggestions || [];
+      document.getElementById('suggestions-list').innerHTML = suggestions.map(s => 
+        `<li>${esc(s)}</li>`
+      ).join('');
+
+      // Update matched list with full data
+      const contacts = data.contacts || [];
+      document.getElementById('matched-list').innerHTML = contacts.slice(0, 12).map(c => `
+        <div class="matched-item">
+          <span class="matched-item-name">${esc(c.name || 'Directory')}</span>
+          <span class="matched-item-tag">${c.audience_size ? formatNum(c.audience_size) + ' reach' : 'Matched'}</span>
+        </div>
+      `).join('');
+
+    } catch (e) {
+      alert('Failed to unlock report. Please try again.');
+      console.error('Unlock error:', e);
+      btn.innerHTML = '<span>Unlock full report</span><span class="btn-icon">🔓</span>';
+      btn.disabled = false;
+    }
+  }
+
+  function goToCheckout() {
+    // Track checkout click
+    if (window.posthog) posthog.capture('checkout_clicked', { source: 'scanner', score: scannerData.score });
+    
+    // Redirect to step 2 (existing flow)
+    goToStep2FromPreview();
+  }
+
   // ── Call /api/analyze — single source of truth ──
   async function callAnalyzeAPI(description, url, name, category) {
     try {
@@ -1939,6 +2407,9 @@
   }
 
   // ── Keyboard shortcuts ──
+  document.getElementById('scan-url')?.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runPressScanner();
+  });
   document.getElementById('product-desc')?.addEventListener('keydown', function(e) {
     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') showMatches();
   });
