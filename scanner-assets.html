@@ -1,0 +1,429 @@
+<!-- ADD TO <style> SECTION (before closing </style>) -->
+<style>
+/* ── PRESS-READINESS SCANNER ── */
+.scanner-results {
+  margin-top: 24px;
+  animation: fadeSlideUp 0.4s ease forwards;
+}
+
+.score-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.score-circle {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: conic-gradient(var(--accent) 0%, rgba(255,255,255,0.1) 0%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: background 0.6s ease;
+}
+
+.score-circle::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  background: var(--ink);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.score-num {
+  font-family: var(--serif);
+  font-size: 32px;
+  color: var(--accent);
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.score-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(245,242,236,0.4);
+  position: relative;
+  z-index: 1;
+}
+
+.score-status {
+  flex: 1;
+}
+
+.score-status-text {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: var(--paper);
+  margin-bottom: 4px;
+}
+
+.score-status-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(245,242,236,0.4);
+}
+
+.score-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.breakdown-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.breakdown-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: rgba(245,242,236,0.7);
+  font-family: var(--sans);
+}
+
+.breakdown-icon {
+  font-size: 14px;
+}
+
+.breakdown-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.breakdown-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #f4a261);
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.breakdown-score {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(245,242,236,0.5);
+  min-width: 40px;
+  text-align: right;
+}
+
+.matched-preview {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.matched-header {
+  font-size: 13px;
+  color: rgba(245,242,236,0.6);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.matched-header strong {
+  color: var(--accent);
+}
+
+.matched-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.matched-list.blurred {
+  filter: blur(4px);
+  user-select: none;
+  pointer-events: none;
+}
+
+.matched-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 3px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.matched-item-name {
+  font-size: 13px;
+  color: var(--paper);
+  font-weight: 600;
+}
+
+.matched-item-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(212,82,26,0.8);
+  letter-spacing: 0.04em;
+}
+
+.matched-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(180deg, transparent 0%, var(--ink) 70%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 12px;
+  pointer-events: none;
+}
+
+.matched-cta {
+  background: rgba(212,82,26,0.15);
+  border: 1px solid rgba(212,82,26,0.3);
+  border-radius: 3px;
+  padding: 8px 16px;
+}
+
+.matched-cta-text {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.email-unlock {
+  margin-bottom: 16px;
+}
+
+.full-report {
+  margin-top: 20px;
+}
+
+.suggestions {
+  background: rgba(255,255,255,0.04);
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.suggestions-header {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--paper);
+  margin-bottom: 12px;
+}
+
+.suggestions ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.suggestions ul li {
+  font-size: 12px;
+  color: rgba(245,242,236,0.7);
+  line-height: 1.5;
+  padding-left: 20px;
+  position: relative;
+}
+
+.suggestions ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+</style>
+
+<!-- ADD TO <script> SECTION (before closing </script>) -->
+<script>
+  // ── PRESS-READINESS SCANNER ──
+  let scannerData = {};
+
+  async function runPressScanner() {
+    const url = document.getElementById('scan-url').value.trim();
+    if (!url) {
+      document.getElementById('scan-url').focus();
+      document.getElementById('scan-url').style.borderColor = 'var(--accent)';
+      return;
+    }
+
+    if (!url.match(/^https?:\/\//)) {
+      alert('Please enter a valid URL starting with http:// or https://');
+      return;
+    }
+
+    // Track scan start
+    if (window.posthog) posthog.capture('scan_started', { url });
+
+    const btn = document.getElementById('scan-btn');
+    btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url, action: 'scan' })
+      });
+
+      if (!res.ok) throw new Error('Scan failed');
+      
+      const data = await res.json();
+      scannerData = { url, ...data };
+
+      // Track scan completed
+      if (window.posthog) posthog.capture('scan_completed', { url, score: data.score });
+
+      displayScanResults(data);
+
+    } catch (e) {
+      alert('Failed to scan URL. Please check the URL and try again.');
+      console.error('Scanner error:', e);
+    } finally {
+      btn.innerHTML = '<span>Scan my site (free)</span><span class="btn-icon">🔍</span>';
+      btn.disabled = false;
+    }
+  }
+
+  function displayScanResults(data) {
+    const resultsEl = document.getElementById('scanner-results');
+    resultsEl.style.display = 'block';
+
+    // Animate score circle
+    const score = data.score || 0;
+    const percentage = (score / 100) * 360;
+    document.querySelector('.score-circle').style.background = 
+      `conic-gradient(var(--accent) ${percentage}deg, rgba(255,255,255,0.1) ${percentage}deg)`;
+    
+    // Animate score number
+    animateCount(score, document.getElementById('score-display'));
+
+    // Status text based on score
+    const statusEl = document.getElementById('score-status-text');
+    if (score >= 80) statusEl.textContent = 'Excellent! Ready to launch';
+    else if (score >= 60) statusEl.textContent = 'Good start. A few tweaks needed';
+    else if (score >= 40) statusEl.textContent = 'Needs work before going live';
+    else statusEl.textContent = 'High priority: Fix these issues';
+
+    // Breakdown bars
+    const breakdown = data.breakdown || {};
+    animateBar('website', breakdown.websiteQuality || 0, 35);
+    animateBar('social', breakdown.socialPresence || 0, 20);
+    animateBar('launch', breakdown.launchReadiness || 0, 25);
+    animateBar('content', breakdown.contentSignals || 0, 20);
+
+    // Matched contacts (blurred preview)
+    const contacts = data.contacts || [];
+    document.getElementById('match-count').textContent = data.totalMatches || contacts.length;
+    
+    const listEl = document.getElementById('matched-list');
+    listEl.innerHTML = contacts.slice(0, 3).map(c => `
+      <div class="matched-item">
+        <span class="matched-item-name">${esc(c.name || 'Media Contact')}</span>
+        <span class="matched-item-tag">${c.audience_size ? formatNum(c.audience_size) + ' reach' : 'Directory'}</span>
+      </div>
+    `).join('');
+
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function animateBar(id, value, max) {
+    const fillEl = document.getElementById(`bar-${id}`);
+    const scoreEl = document.getElementById(`score-${id}`);
+    const percentage = (value / max) * 100;
+    
+    setTimeout(() => {
+      fillEl.style.width = `${percentage}%`;
+    }, 100);
+    
+    scoreEl.textContent = `${value}/${max}`;
+  }
+
+  async function unlockReport() {
+    const email = document.getElementById('unlock-email').value.trim();
+    if (!email || !email.includes('@')) {
+      alert('Please enter a valid email address');
+      return;
+    }
+
+    // Track email capture
+    if (window.posthog) {
+      posthog.identify(email);
+      posthog.capture('email_captured', { url: scannerData.url, score: scannerData.score });
+    }
+
+    const btn = event.target;
+    btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: scannerData.url, email, action: 'unlock' })
+      });
+
+      if (!res.ok) throw new Error('Unlock failed');
+      
+      const data = await res.json();
+
+      // Show full report
+      document.getElementById('email-unlock').style.display = 'none';
+      document.getElementById('matched-list').classList.remove('blurred');
+      document.querySelector('.matched-overlay').style.display = 'none';
+      document.getElementById('full-report').style.display = 'block';
+
+      // Display suggestions
+      const suggestions = data.suggestions || [];
+      document.getElementById('suggestions-list').innerHTML = suggestions.map(s => 
+        `<li>${esc(s)}</li>`
+      ).join('');
+
+      // Update matched list with full data
+      const contacts = data.contacts || [];
+      document.getElementById('matched-list').innerHTML = contacts.slice(0, 12).map(c => `
+        <div class="matched-item">
+          <span class="matched-item-name">${esc(c.name || 'Directory')}</span>
+          <span class="matched-item-tag">${c.audience_size ? formatNum(c.audience_size) + ' reach' : 'Matched'}</span>
+        </div>
+      `).join('');
+
+    } catch (e) {
+      alert('Failed to unlock report. Please try again.');
+      console.error('Unlock error:', e);
+      btn.innerHTML = '<span>Unlock full report</span><span class="btn-icon">🔓</span>';
+      btn.disabled = false;
+    }
+  }
+
+  function goToCheckout() {
+    // Track checkout click
+    if (window.posthog) posthog.capture('checkout_clicked', { source: 'scanner', score: scannerData.score });
+    
+    // Redirect to step 2 (existing flow) or direct checkout
+    goToStep2FromPreview();
+  }
+
+  // Keyboard shortcut for scanner
+  document.getElementById('scan-url')?.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runPressScanner();
+  });
+</script>

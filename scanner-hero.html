@@ -1,0 +1,120 @@
+  <div class="hero-right">
+    <!-- PRESS-READINESS SCANNER (Primary CTA) -->
+    <div class="form-card" id="scanner-card">
+      <span class="form-label">Free Press-Readiness Scanner</span>
+      <h2>Is your startup press-ready?</h2>
+      <p class="form-intro">Enter your URL. We'll analyze your site and show you exactly what needs fixing before launch.</p>
+
+      <div class="field">
+        <label>Your startup URL</label>
+        <input type="url" id="scan-url" placeholder="https://yourproduct.com">
+      </div>
+
+      <button class="calc-btn" id="scan-btn" onclick="runPressScanner()">
+        <span>Scan my site (free)</span>
+        <span class="btn-icon">🔍</span>
+      </button>
+
+      <p class="form-note">Free · No credit card · Instant results</p>
+
+      <!-- SCANNER RESULTS -->
+      <div class="scanner-results" id="scanner-results" style="display:none;">
+        <!-- Score display -->
+        <div class="score-header">
+          <div class="score-circle">
+            <div class="score-num" id="score-display">0</div>
+            <div class="score-label">/ 100</div>
+          </div>
+          <div class="score-status">
+            <div class="score-status-text" id="score-status-text">Analyzing...</div>
+            <div class="score-status-sub" id="score-status-sub">Press-Readiness Score</div>
+          </div>
+        </div>
+
+        <!-- Breakdown -->
+        <div class="score-breakdown">
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <span class="breakdown-icon">🌐</span>
+              <span>Website Quality</span>
+            </div>
+            <div class="breakdown-bar">
+              <div class="breakdown-fill" id="bar-website" style="width: 0%"></div>
+            </div>
+            <div class="breakdown-score" id="score-website">0/35</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <span class="breakdown-icon">📱</span>
+              <span>Social Presence</span>
+            </div>
+            <div class="breakdown-bar">
+              <div class="breakdown-fill" id="bar-social" style="width: 0%"></div>
+            </div>
+            <div class="breakdown-score" id="score-social">0/20</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <span class="breakdown-icon">🚀</span>
+              <span>Launch Readiness</span>
+            </div>
+            <div class="breakdown-bar">
+              <div class="breakdown-fill" id="bar-launch" style="width: 0%"></div>
+            </div>
+            <div class="breakdown-score" id="score-launch">0/25</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <span class="breakdown-icon">📝</span>
+              <span>Content Signals</span>
+            </div>
+            <div class="breakdown-bar">
+              <div class="breakdown-fill" id="bar-content" style="width: 0%"></div>
+            </div>
+            <div class="breakdown-score" id="score-content">0/20</div>
+          </div>
+        </div>
+
+        <!-- Matched contacts preview (blurred) -->
+        <div class="matched-preview">
+          <div class="matched-header">
+            <span class="matched-icon">📰</span>
+            <span>We found <strong id="match-count">0</strong> relevant media contacts</span>
+          </div>
+          <div class="matched-list blurred" id="matched-list">
+            <!-- Populated via JS -->
+          </div>
+          <div class="matched-overlay">
+            <div class="matched-cta">
+              <span class="matched-cta-text">Enter your email to unlock full report</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email unlock -->
+        <div class="email-unlock" id="email-unlock">
+          <div class="field">
+            <input type="email" id="unlock-email" placeholder="you@startup.com" style="text-align: center;">
+          </div>
+          <button class="calc-btn" onclick="unlockReport()">
+            <span>Unlock full report</span>
+            <span class="btn-icon">🔓</span>
+          </button>
+        </div>
+
+        <!-- Full report (after email) -->
+        <div class="full-report" id="full-report" style="display:none;">
+          <div class="suggestions">
+            <div class="suggestions-header">💡 Priority fixes</div>
+            <ul id="suggestions-list"></ul>
+          </div>
+
+          <button class="pay-btn" onclick="goToCheckout()">
+            <span>Get me listed everywhere — $49</span>
+            <span>→</span>
+          </button>
+          <p class="pay-note">300+ directories · Done for you · Full report</p>
+        </div>
+      </div>
+    </div>
+  </div>
